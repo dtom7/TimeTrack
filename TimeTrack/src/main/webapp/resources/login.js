@@ -4,13 +4,13 @@ Ext.onReady(function() {
 
 	var fpItems = [ {
 		fieldLabel : 'Email ID',
-		name : 'userId',
+		name : 'j_username',
 		allowBlank : false,
 		vtype: 'email',
 		blankText: 'Email ID cannot be blank'
 	}, {
 		fieldLabel : 'Password',
-		name : 'password',
+		name : 'j_password',
 		allowBlank : false,
 		inputType : 'password',
 		blankText: 'Password cannot be blank'
@@ -38,11 +38,14 @@ Ext.onReady(function() {
 		            if (form.isValid()) {
 		                // Submit the Ajax request and handle the response
 		                form.submit({
-		                	url : 'processLogin',
+		                	url : 'j_spring_security_check',
 		                    success: function(form, action) {
 		                    	console.log('ajax success');
-		                       //Ext.Msg.alert('Success', action.result.msg);
-		                       window.location.assign("index.html");
+		                    	if (action.result.msg === 'Login Success') {
+		                    		window.location.assign("/TimeTrack");
+		                    	} else {
+		                    		Ext.Msg.alert('Login Failed', action.result.msg);
+		                    	}                                              
 		                    },
 		                    failure: function(form, action) {
 		                    	console.log('ajax failed');

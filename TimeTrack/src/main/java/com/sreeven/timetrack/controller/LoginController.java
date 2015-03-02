@@ -65,8 +65,8 @@ public class LoginController {
 
 	@RequestMapping("/getUser")
 	public UserWrapper getUser() {
-
-		return new UserWrapper(true, new User("Samuel"));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return new UserWrapper(true, new User(auth.getName()));
 	}
 
 }

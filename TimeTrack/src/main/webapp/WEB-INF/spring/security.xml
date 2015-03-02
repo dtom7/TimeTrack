@@ -8,10 +8,12 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
  <http pattern="/resources/**" security="none" />
  <http pattern="/login.html" security="none" />
- <http pattern="/processLogin" security="none" />
- <http auto-config="false">
+ <http auto-config="true">
   <intercept-url pattern="/**" access="ROLE_USER" />
-  <form-login login-page="/login.html" />
+  <form-login login-page="/login.html"
+   authentication-success-handler-ref="loginSuccessHandler"
+   authentication-failure-handler-ref="loginFailureHandler" />
+   <logout invalidate-session="true" logout-url="/j_spring_security_logout" success-handler-ref="logoutSuccessHandler" />
  </http>
  <authentication-manager alias="authenticationManager">
   <authentication-provider>
@@ -20,4 +22,10 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
    </user-service>
   </authentication-provider>
  </authentication-manager>
+ <bean:bean id="loginSuccessHandler"
+  class="com.sreeven.timetrack.security.LoginSuccessHandler" />
+ <bean:bean id="loginFailureHandler"
+  class="com.sreeven.timetrack.security.LoginFailureHandler" />
+ <bean:bean id="logoutSuccessHandler"
+  class="com.sreeven.timetrack.security.LogoutSuccessHandler" />
 </bean:beans>

@@ -1,0 +1,29 @@
+#header, a {
+	background-color: #214674;
+	color: white;
+	text-align: center;
+	font-family: tahoma,arial,verdana,sans-serif;
+	height: 70px;
+}
+
+table {
+	height: 70px;
+	width: 100%;
+}
+
+td {
+	padding: 20px;
+}
+
+.td-left-data {
+	text-align: left;
+	font-size: 18px;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+.td-right-data {
+	text-align: right;
+	font-size: 16px;
+	font-weight: normal;
+}
