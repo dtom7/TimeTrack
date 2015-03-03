@@ -18,7 +18,9 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
  <authentication-manager alias="authenticationManager">
   <authentication-provider>
    <user-service>
+    <user name="admin@example.com" password="admin" authorities="ROLE_USER,ROLE_ADMIN" />
     <user name="user1@example.com" password="user1" authorities="ROLE_USER" />
+    <user name="user2@example.com" password="user2" authorities="ROLE_USER" />
    </user-service>
   </authentication-provider>
  </authentication-manager>
