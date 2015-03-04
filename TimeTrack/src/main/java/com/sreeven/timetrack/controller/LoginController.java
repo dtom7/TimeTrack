@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sreeven.timetrack.domain.LoginWrapper;
 import com.sreeven.timetrack.domain.LogoutWrapper;
-import com.sreeven.timetrack.domain.User;
 import com.sreeven.timetrack.domain.UserWrapper;
+import com.sreeven.timetrack.service.UserService;
 
 @RestController
 public class LoginController {
@@ -31,10 +31,13 @@ public class LoginController {
 
 	@Autowired
 	@Qualifier("authenticationManager")
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	SecurityContextRepository repository;
+	private SecurityContextRepository repository;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
 	public LoginWrapper processLogin(
@@ -66,7 +69,7 @@ public class LoginController {
 	@RequestMapping("/getUser")
 	public UserWrapper getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return new UserWrapper(true, new User(auth.getName()));
+		return new UserWrapper(true, userService.findUserByEmail(auth.getName()));
 	}
 
 }
