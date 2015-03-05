@@ -4,14 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 
 @Entity
-@Table(name="USER_ACCOUNT")
+@Table(name="USER_TBL")
 public class User {
 	
 	@Id
@@ -22,11 +20,10 @@ public class User {
 	private String email;
 	@Column(name = "PASSWORD", nullable=false)
 	private String password;
-	@Column(name = "LOCKED", nullable=false, length=1)
-	private String locked;
-    @OneToOne
-    @JoinColumn(name="CONSULTANT_ID")  
-    private Consultant consultant = null;
+	@Column(name = "STATUS", nullable=false, length=1)
+	private String status;
+	@Column(name = "NAME", nullable=false)
+	private String name;
 	@Version 
 	private long version;
 	
@@ -57,12 +54,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getLocked() {
-		return locked;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setLocked(String locked) {
-		this.locked = locked;
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public long getVersion() {
@@ -71,6 +76,11 @@ public class User {
 
 	public void setVersion(long version) {
 		this.version = version;
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		return this.id + " -- " + this.email + " -- " + this.name;
+	}
 	
 }
