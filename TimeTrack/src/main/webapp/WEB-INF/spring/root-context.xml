@@ -37,5 +37,9 @@
   <property name="sessionFactory" ref="sessionFactory" />
  </bean>
  <tx:annotation-driven transaction-manager="transactionManager" />
+ 
+ <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+ 
 
 </beans>

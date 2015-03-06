@@ -24,15 +24,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.getUserById(id);
 	}
 
 	@Override
 	@Transactional
 	public User getUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.getUserByEmail(email);
 	}
 
 	@Override
@@ -44,15 +42,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.updateUser(user);
 	}
 
 	@Override
 	@Transactional
 	public void deleteUser(User user) {
-		// TODO Auto-generated method stub
-		
+		userDAO.deleteUser(user);		
 	}
 
 }

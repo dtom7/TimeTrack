@@ -17,7 +17,18 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserByEmail(String email) {
-		return null;
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from User u where u.email = :email_id");
+		query.setParameter("email_id", email);
+		@SuppressWarnings("unchecked")
+		List<User> list = (List<User>) query.list();
+		if (list.size() != 0) {
+			return list.get(0);
+		} else {
+			User user = new User();
+			user.setName("Test User");
+			return user;
+		}
 	}
 
 	@Override
@@ -44,11 +55,11 @@ public class UserDAOImpl implements UserDAO {
 		sessionFactory.getCurrentSession().delete(user);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from User");
+		@SuppressWarnings("unchecked")
 		List<User> list = (List<User>) query.list();
 		return list;
 	}
