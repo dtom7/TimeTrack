@@ -27,7 +27,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 			retString = "Data integrity violation exception !!";
 			break;
 		default:
-			retString = "Other Exception -- " + e.getClass().getName();
+			retString = "Other Exception -- " + e.getMessage();
 			break;
 
 		}

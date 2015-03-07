@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +22,7 @@ public class User {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "ID")
+	@Column(name = "USER_ID")
 	private long id;
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	private String email;
@@ -30,14 +32,15 @@ public class User {
 	private String status;
 	@Column(name = "NAME", nullable = false)
 	private String name;
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@JoinTable(name = "USER_ROLES", joinColumns = @JoinColumn(name = "USER_ID"))
 	@Column(name = "ROLE_NAME")
+	@Enumerated(EnumType.STRING)
 	private Set<Role> userRoles = new HashSet<Role>();
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID"))
 	private Set<Address> userAddresses = new HashSet<Address>();
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@JoinTable(name = "USER_PHONES", joinColumns = @JoinColumn(name = "USER_ID"))
 	private Set<Phone> userPhones = new HashSet<Phone>();
 	@Version

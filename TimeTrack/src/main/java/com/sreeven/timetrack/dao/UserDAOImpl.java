@@ -1,7 +1,9 @@
 package com.sreeven.timetrack.dao;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +47,20 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserById(Long id) {
-		User user = (User) sessionFactory.getCurrentSession().get(User.class,
-				id);
-		return user;
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from User u where u.id = :user_id");
+		query.setParameter("user_id", id);
+		@SuppressWarnings("unchecked")
+		List<User> list = (List<User>) query.list();
+		User user = null;
+		if (list.size() != 0) {
+			user = list.get(0);
+			/* to prevent lazy initialization exception */
+			Hibernate.initialize(user.getUserRoles());
+			Hibernate.initialize(user.getUserAddresses());
+			Hibernate.initialize(user.getUserPhones());
+		}
+		return Objects.requireNonNull(user, "No user exists with id: " + id);
 	}
 
 	@Override
@@ -61,6 +74,12 @@ public class UserDAOImpl implements UserDAO {
 				"from User");
 		@SuppressWarnings("unchecked")
 		List<User> list = (List<User>) query.list();
+		for (User user : list) {
+			/* to prevent lazy initialization exception */
+			Hibernate.initialize(user.getUserRoles());
+			Hibernate.initialize(user.getUserAddresses());
+			Hibernate.initialize(user.getUserPhones());
+		}
 		return list;
 	}
 

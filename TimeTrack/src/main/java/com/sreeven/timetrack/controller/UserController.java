@@ -17,7 +17,7 @@ import com.sreeven.timetrack.domain.User;
 import com.sreeven.timetrack.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
 	@Autowired
@@ -47,9 +47,14 @@ public class UserController {
 		return count + " users created";
 	}
 
-	@RequestMapping("/getAllUsers")
+	@RequestMapping("/")
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
+	}
+	
+	@RequestMapping("/{id}")
+	public User getUser(@PathVariable long id) {
+		return userService.getUserById(id);
 	}
 
 	@RequestMapping("/updateUser/{id}/{name}")
@@ -57,7 +62,6 @@ public class UserController {
 		User user = userService.getUserById(id);
 		user.setName(name);
 		return userService.updateUser(user).getName();
-
 	}
 	
 	@RequestMapping("/deleteUser/{id}")

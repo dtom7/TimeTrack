@@ -1,12 +1,17 @@
 package com.sreeven.timetrack.domain;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Address {
 
-	@Column(name = "ADDRESS_TYPE", nullable = false)
+	@Column(name = "ADDRESS_TYPE")
+	@Enumerated(EnumType.STRING)
 	private AddressType addressType;
 	@Column(name = "ADDRESS1")
 	private String address1;
@@ -93,4 +98,31 @@ public class Address {
 		this.country = country;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+		Address rhs = (Address) obj;
+		return Objects.equals(addressType, rhs.addressType)
+				&& Objects.equals(address1, rhs.address1)
+				&& Objects.equals(address2, rhs.address2)
+				&& Objects.equals(city, rhs.city)
+				&& Objects.equals(state, rhs.state)
+				&& Objects.equals(zipCode, rhs.zipCode)
+				&& Objects.equals(country, rhs.country);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(addressType, address1, address2, city, state,
+				zipCode, country);
+	}	
+	
 }
