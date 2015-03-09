@@ -3,7 +3,7 @@ package com.sreeven.timetrack.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +30,9 @@ public class UserController {
 			User user = new User();
 			user.setEmail("user" + i + "@example.com");
 			user.setName("user" + i);
-			user.setPassword("password" + i);
-			user.setStatus("A");
+			user.setPassword(new BCryptPasswordEncoder().encode("password" + i));
+			user.setEnabled(true);
 			user.getUserRoles().add(Role.ROLE_USER);
-			if (i == 1) {
-				user.getUserRoles().add(Role.ROLE_ADMIN);
-			}
 			user.getUserAddresses().add(new Address(AddressType.HOME, "123 Main St", "", "Columbus", "OH", "12345", "USA"));
 			user.getUserAddresses().add(new Address(AddressType.WORK, "321 King St", "", "Troy", "NY", "98765", "USA"));
 			user.getUserPhones().add(new Phone(PhoneType.HOME_PHONE, "123-456-7899"));

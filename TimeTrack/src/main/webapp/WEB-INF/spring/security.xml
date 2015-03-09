@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
- xsi:schemaLocation="http://www.springframework.org/schema/beans
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
- <http pattern="/resources/**" security="none" />
- <http pattern="/login.html" security="none" />
- <http auto-config="true">
-  <intercept-url pattern="/**" access="ROLE_USER" />
-  <form-login login-page="/login.html"
-   authentication-success-handler-ref="loginSuccessHandler"
-   authentication-failure-handler-ref="loginFailureHandler" />
-   <logout invalidate-session="true" logout-url="/j_spring_security_logout" success-handler-ref="logoutSuccessHandler" />
- </http>
- <authentication-manager alias="authenticationManager">
-  <authentication-provider>
-   <user-service>
-    <user name="admin@example.com" password="admin" authorities="ROLE_USER,ROLE_ADMIN" />
-    <user name="user1@example.com" password="user1" authorities="ROLE_USER" />
-    <user name="user2@example.com" password="user2" authorities="ROLE_USER" />
-   </user-service>
-  </authentication-provider>
- </authentication-manager>
- <bean:bean id="loginSuccessHandler"
-  class="com.sreeven.timetrack.security.LoginSuccessHandler" />
- <bean:bean id="loginFailureHandler"
-  class="com.sreeven.timetrack.security.LoginFailureHandler" />
- <bean:bean id="logoutSuccessHandler"
-  class="com.sreeven.timetrack.security.LogoutSuccessHandler" />
+   <http pattern="/resources/**" security="none" />
+   <http pattern="/TT/**" security="none" />
+   <http pattern="/login.html" security="none" />
+   <http auto-config="true">
+      <intercept-url pattern="/**" access="ROLE_USER" />
+      <form-login login-page="/login.html"
+         authentication-success-handler-ref="loginSuccessHandler"
+         authentication-failure-handler-ref="loginFailureHandler" />
+      <logout invalidate-session="true" logout-url="/j_spring_security_logout"
+         success-handler-ref="logoutSuccessHandler" />
+   </http>
+
+   <authentication-manager alias="authenticationManager">
+      <authentication-provider>
+         <password-encoder ref="encoder" />
+         <jdbc-user-service data-source-ref="dataSource"
+            users-by-username-query="select email, password, enabled from user_tbl where email=?"
+            authorities-by-username-query="select user_tbl.email, user_roles.role_name from user_tbl, user_roles where user_tbl.user_id = user_roles.user_id and user_tbl.email=?" />
+      </authentication-provider>
+   </authentication-manager>
+
+   <bean:bean id="encoder"
+      class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+   <bean:bean id="loginSuccessHandler"
+      class="com.sreeven.timetrack.security.LoginSuccessHandler" />
+   <bean:bean id="loginFailureHandler"
+      class="com.sreeven.timetrack.security.LoginFailureHandler" />
+   <bean:bean id="logoutSuccessHandler"
+      class="com.sreeven.timetrack.security.LogoutSuccessHandler" />
 </bean:beans>

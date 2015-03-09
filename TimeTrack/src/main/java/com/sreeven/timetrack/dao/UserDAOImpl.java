@@ -56,9 +56,9 @@ public class UserDAOImpl implements UserDAO {
 		if (list.size() != 0) {
 			user = list.get(0);
 			/* to prevent lazy initialization exception */
-			Hibernate.initialize(user.getUserRoles());
-			Hibernate.initialize(user.getUserAddresses());
-			Hibernate.initialize(user.getUserPhones());
+			//Hibernate.initialize(user.getUserRoles());
+			//Hibernate.initialize(user.getUserAddresses());
+			//Hibernate.initialize(user.getUserPhones());
 		}
 		return Objects.requireNonNull(user, "No user exists with id: " + id);
 	}
@@ -74,12 +74,6 @@ public class UserDAOImpl implements UserDAO {
 				"from User");
 		@SuppressWarnings("unchecked")
 		List<User> list = (List<User>) query.list();
-		for (User user : list) {
-			/* to prevent lazy initialization exception */
-			Hibernate.initialize(user.getUserRoles());
-			Hibernate.initialize(user.getUserAddresses());
-			Hibernate.initialize(user.getUserPhones());
-		}
 		return list;
 	}
 

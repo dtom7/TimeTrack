@@ -26,7 +26,7 @@ Ext.onReady(function() {
 		labelWidth : 126,
 		defaultType : 'textfield',
 		defaults : {
-			msgTarget : 'side',
+			msgTarget : 'under',
 			anchor : '-10'
 		},
 		items : fpItems,

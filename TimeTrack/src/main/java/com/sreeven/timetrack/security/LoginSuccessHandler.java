@@ -20,6 +20,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(LoginSuccessHandler.class);
+	
+	static {
+		System.out.println("In LoginSuccessHandler ..");
+	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,

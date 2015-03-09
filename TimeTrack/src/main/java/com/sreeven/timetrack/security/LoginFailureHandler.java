@@ -20,6 +20,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(LoginFailureHandler.class);
+	
+	static {
+		System.out.println("In LoginFailureHandler ..");
+	}
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request,
