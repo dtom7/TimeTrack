@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.MyNotifications' ,{
+Ext.define('TT.view.common.MyNotifications' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.MyNotifications',
     title: 'My Notifications',

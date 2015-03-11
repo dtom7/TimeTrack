@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.MyTimesheets' ,{
+Ext.define('TT.view.user.MyTimesheets' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.MyTimesheets',
     title: 'My Timesheets',

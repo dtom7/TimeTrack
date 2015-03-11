@@ -5,8 +5,7 @@ Ext.define('TT.view.main.MainNorth' ,{
     initComponent: function() {
     	console.log('In north');
         Ext.apply(this, {
-			region : 'north',
-			id : 'north_region',
+			region : 'north',			
 			margins : '0 0 0 0',
 			height : 70,
 			tpl : Ext.create('Ext.Template', "<div id='header'><table><tr>", "<td class='td-left-data'>Welcome, {name}</td>", "<td></td>",

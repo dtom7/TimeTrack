@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.ManageClients' ,{
+Ext.define('TT.view.admin.ManageClients' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.ManageClients',
     title: 'Manage Clients',

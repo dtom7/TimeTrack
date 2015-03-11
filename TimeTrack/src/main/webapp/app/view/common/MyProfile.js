@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.MyProfile' ,{
+Ext.define('TT.view.common.MyProfile' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.MyProfile',
     title: 'My Profile',

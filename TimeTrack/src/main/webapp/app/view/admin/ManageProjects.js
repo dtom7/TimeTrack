@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.ManageProjects' ,{
+Ext.define('TT.view.admin.ManageProjects' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.ManageProjects',
     title: 'Manage Projects',

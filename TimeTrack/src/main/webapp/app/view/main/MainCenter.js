@@ -5,18 +5,12 @@ Ext.define('TT.view.main.MainCenter' ,{
     initComponent: function() {
     	console.log('In center');
         Ext.apply(this, {
-			region : 'center',
-			id : 'center_region',
+			region : 'center',			
 			activeItem : 0,
 			layout : {
 				type : 'card',
 				deferredRender : true,
-			},
-			items : [ {
-				id : 'My-Home',
-				xtype : 'panel',
-				html : 'Center'
-			} ]
+			}
 		});
 
         this.callParent(arguments);

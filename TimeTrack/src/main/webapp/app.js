@@ -1,7 +1,7 @@
 Ext.application({
 	name : 'TT',
 	appFolder : 'app',
-	controllers : [ 'main.Main' ],
+	controllers : [ 'main.Main', 'common.CommonController', 'user.UserController', 'admin.AdminController' ],
 
 	launch : function() {
 
@@ -10,13 +10,17 @@ Ext.application({
 				type : 'border',
 			},
 			items : [ {
-				xtype : 'MainNorth'
+				xtype : 'MainNorth',
+				id : 'north_region'
 			}, {
-				xtype : 'MainWest'
+				xtype : 'MainWest',
+				id : 'west_region'
 			}, {
-				xtype : 'MainCenter'
+				xtype : 'MainCenter',
+				id : 'center_region'
 			}, {
 				xtype : 'MainSouth',
+				id : 'south_region'
 			} ]
 
 		});

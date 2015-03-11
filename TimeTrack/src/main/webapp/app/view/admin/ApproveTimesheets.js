@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.ApproveTimesheets' ,{
+Ext.define('TT.view.admin.ApproveTimesheets' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.ApproveTimesheets',
     title: 'Approve Timesheets',

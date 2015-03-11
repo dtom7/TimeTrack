@@ -1,4 +1,4 @@
-Ext.define('TT.app.view.ManageUsers' ,{
+Ext.define('TT.view.admin.ManageUsers' ,{
     extend: 'Ext.panel.Panel',
     alias : 'widget.ManageUsers',
     title: 'Manage Users',
