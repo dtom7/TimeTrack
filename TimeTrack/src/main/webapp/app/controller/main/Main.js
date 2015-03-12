@@ -70,5 +70,6 @@ Ext.define('TT.controller.main.Main', {
 			});
 		}
 		centerRegion.layout.setActiveItem(itemId);
+		this.application.fireEvent(itemId.replace('-', '') + 'Event');
 	}
 });

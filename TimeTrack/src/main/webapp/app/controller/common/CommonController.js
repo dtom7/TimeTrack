@@ -11,9 +11,18 @@ Ext.define('TT.controller.common.CommonController', {
             	render: this.onMyHomeRender
             }
         });
+        
+        this.application.on({
+        	MyProfileEvent: this.onMyProfileEvent,
+            scope: this
+        });
     },
 
     onMyHomeRender: function() {
         console.log('MyHome onrender ...');
+    },
+    
+    onMyProfileEvent: function() {
+        console.log('MyProfileEvent ... ');
     }
 });
