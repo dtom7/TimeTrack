@@ -25,14 +25,23 @@ Ext.define('TT.model.User', {
 		type : 'auto'
 	} ],
 	associations : [ {
-		type : 'hasMany',
+		type  : 'hasMany',
 		model : 'TT.model.Address',
 		name : 'userAddresses',
 		associationKey : 'userAddresses'
 	}, {
-		type : 'hasMany',
+		type  : 'hasMany',
 		model : 'TT.model.Phone',
 		name : 'userPhones',
 		associationKey : 'userPhones'
-	} ]
+	} ],
+    proxy: {
+        type: 'rest',
+        url : 'users',
+        reader: {
+            type: 'json',
+            root: 'data'
+        }
+    }
+
 });

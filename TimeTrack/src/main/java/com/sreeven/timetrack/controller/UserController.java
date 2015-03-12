@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sreeven.timetrack.domain.Address;
@@ -14,6 +16,7 @@ import com.sreeven.timetrack.domain.Phone;
 import com.sreeven.timetrack.domain.PhoneType;
 import com.sreeven.timetrack.domain.Role;
 import com.sreeven.timetrack.domain.User;
+import com.sreeven.timetrack.domain.SingleUserRESTWrapper;
 import com.sreeven.timetrack.service.UserService;
 
 @RestController
@@ -33,13 +36,18 @@ public class UserController {
 			user.setPassword(new BCryptPasswordEncoder().encode("password" + i));
 			user.setEnabled(true);
 			user.getUserRoles().add(Role.ROLE_USER);
-			user.getUserAddresses().add(new Address(AddressType.HOME, "123 Main St", "", "Columbus", "OH", "12345", "USA"));
-			user.getUserAddresses().add(new Address(AddressType.WORK, "321 King St", "", "Troy", "NY", "98765", "USA"));
-			user.getUserPhones().add(new Phone(PhoneType.HOME_PHONE, "123-456-7899"));
-			user.getUserPhones().add(new Phone(PhoneType.MOBILE_PHONE, "987-654-3211"));
+			user.getUserAddresses().add(
+					new Address(AddressType.HOME, "123 Main St", "",
+							"Columbus", "OH", "12345", "USA"));
+			user.getUserAddresses().add(
+					new Address(AddressType.WORK, "321 King St", "", "Troy",
+							"NY", "98765", "USA"));
+			user.getUserPhones().add(
+					new Phone(PhoneType.HOME_PHONE, "123-456-7899"));
+			user.getUserPhones().add(
+					new Phone(PhoneType.MOBILE_PHONE, "987-654-3211"));
 			System.out.println("Creating user: " + user);
-				System.out.println("Created user: "
-						+ userService.createUser(user));
+			System.out.println("Created user: " + userService.createUser(user));
 		}
 		return count + " users created";
 	}
@@ -48,19 +56,18 @@ public class UserController {
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
-	
-	@RequestMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.getUserById(id);
+
+	@RequestMapping(name = "/{id}", method = RequestMethod.GET)
+	public SingleUserRESTWrapper getUser(@PathVariable long id) {
+		return new SingleUserRESTWrapper(true, userService.getUserById(id));
 	}
 
-	@RequestMapping("/updateUser/{id}/{name}")
-	public String updateUser(@PathVariable long id, @PathVariable String name) {
-		User user = userService.getUserById(id);
-		user.setName(name);
+	@RequestMapping(name = "/{id}", method = RequestMethod.PUT)
+	public String updateUser(@RequestBody User user) {
+		User user1 = userService.getUserById(user.getId());
 		return userService.updateUser(user).getName();
 	}
-	
+
 	@RequestMapping("/deleteUser/{id}")
 	public String deleteUser(@PathVariable long id) {
 		User user = userService.getUserById(id);
@@ -68,7 +75,5 @@ public class UserController {
 		userService.deleteUser(user);
 		return "Deleted";
 	}
-
-		
 
 }
