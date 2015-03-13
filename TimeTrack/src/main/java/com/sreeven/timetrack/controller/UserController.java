@@ -52,26 +52,33 @@ public class UserController {
 		return count + " users created";
 	}
 
-	@RequestMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<User> getAllUsers() {
+		System.out.println("getAllUsers ..");
 		return userService.getAllUsers();
 	}
 
-	@RequestMapping(name = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public SingleUserRESTWrapper getUser(@PathVariable long id) {
+		System.out.println("getUser: " + id);
 		return new SingleUserRESTWrapper(true, userService.getUserById(id));
 	}
 
-	@RequestMapping(name = "/{id}", method = RequestMethod.PUT)
-	public String updateUser(@RequestBody User user) {
-		User user1 = userService.getUserById(user.getId());
-		return userService.updateUser(user).getName();
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public SingleUserRESTWrapper updateUser(@RequestBody User user, @PathVariable long id) {
+		System.out.println("updateUser: " + id);
+		return new SingleUserRESTWrapper(true, userService.updateUser(user));
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public long createUser(@RequestBody User user) {
+		System.out.println("createUser: ");
+		return userService.createUser(user);
 	}
 
-	@RequestMapping("/deleteUser/{id}")
-	public String deleteUser(@PathVariable long id) {
-		User user = userService.getUserById(id);
-		System.out.println("User: " + user + " will be deleted");
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String deleteUser(@RequestBody User user, @PathVariable long id) {
+		System.out.println("deleteUser: " + id);
 		userService.deleteUser(user);
 		return "Deleted";
 	}

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.sreeven.timetrack.domain.RESTExceptionWrapper;
+
 @ControllerAdvice
 public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -35,7 +37,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		return handleExceptionInternal(e, retString, headers, HttpStatus.OK,
+		return handleExceptionInternal(e, new RESTExceptionWrapper(false, retString), headers, HttpStatus.OK,
 				request);
 	}
 

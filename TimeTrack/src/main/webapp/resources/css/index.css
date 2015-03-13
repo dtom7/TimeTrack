@@ -1,9 +1,13 @@
-#header, a {
+#header {
 	background-color: #214674;
 	color: white;
 	text-align: center;
-	font-family: tahoma,arial,verdana,sans-serif;
+	font-family: tahoma, arial, verdana, sans-serif;
 	height: 70px;
+}
+
+#logout_btn {
+	cursor: pointer;
 }
 
 table {
@@ -28,29 +32,29 @@ td {
 	font-weight: normal;
 }
 
-.nav-box { 
-    padding: 10px; 
+.nav-box {
+	padding: 10px;
 }
 
-li{
-    margin: 10px 0;
-    color: white;
-    background-color: #214674;
+li {
+	margin: 10px 0;
+	color: white;
+	background-color: #214674;
 }
 
-.list-row { 
-	border: 2px solid #214674; 
-    cursor: pointer; 
-    list-style: none outside; 
-    padding: 10px; 
-} 
-
-.list-row-over { 
-    /* background-color: #C1DCFB; */ 
-    background-color: #cbdbef;  
-    color: black;
+.list-row {
+	border: 2px solid #214674;
+	cursor: pointer;
+	list-style: none outside;
+	padding: 10px;
 }
- 
-.list-row-selected { 
-    background-color: #0080ff; 
+
+.list-row-over {
+	/* background-color: #C1DCFB; */
+	background-color: #cbdbef;
+	color: black;
+}
+
+.list-row-selected {
+	background-color: #0080ff;
 }
