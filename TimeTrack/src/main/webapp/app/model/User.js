@@ -24,13 +24,13 @@ Ext.define('TT.model.User', {
 		name : 'userRoles',
 		type : 'auto'
 	} ],
-	associations : [ {
-		type : 'hasMany',
+	hasMany : [ {
+		/*type : 'hasMany',*/
 		model : 'TT.model.Address',
 		name : 'userAddresses',
 		associationKey : 'userAddresses'
 	}, {
-		type : 'hasMany',
+		/*type : 'hasMany',*/
 		model : 'TT.model.Phone',
 		name : 'userPhones',
 		associationKey : 'userPhones'
@@ -41,6 +41,11 @@ Ext.define('TT.model.User', {
 		reader : {
 			type : 'json',
 			root : 'data'
+		},
+		writer : {
+			type : 'json',
+			writeAllFields : true,
+			allowSingle : true
 		},
 		afterRequest : function(request, success) {
 			// console.log(success); // either true or false

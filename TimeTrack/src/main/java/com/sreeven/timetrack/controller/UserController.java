@@ -1,8 +1,15 @@
 package com.sreeven.timetrack.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,15 +73,22 @@ public class UserController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public SingleUserRESTWrapper updateUser(@RequestBody User user, @PathVariable long id) {
-		System.out.println("updateUser: " + id);
+		System.out.println("updateUser: " + user.getUserPhones());
 		return new SingleUserRESTWrapper(true, userService.updateUser(user));
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public long createUser(@RequestBody User user) {
-		System.out.println("createUser: ");
+/*	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public long createUser(@RequestBody User user, @PathVariable long id) {
+		System.out.println("createUser: " + user);
 		return userService.createUser(user);
-	}
+	    //StringBuilder buffer = new StringBuilder(); // HttpServletRequest request
+	    //BufferedReader reader = request.getReader();
+	    //String line;
+	    //while ((line = reader.readLine()) != null) {
+	    //    buffer.append(line);
+	    //}
+	    //String data = buffer.toString();
+	}*/
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@RequestBody User user, @PathVariable long id) {
