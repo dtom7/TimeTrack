@@ -1,7 +1,11 @@
-Ext.define('TT.controller.main.Main', {
+Ext.define('TT.controller.main.MainController', {
 	extend : 'Ext.app.Controller',
 	views : [ 'main.MainNorth', 'main.MainCenter', 'main.MainSouth', 'main.MainWest' ],
 	stores : [ 'main.LinksStore' ],
+    refs: [{
+        selector: 'viewport > #center_region',
+        ref: 'centerRegion'
+    }],
 	init : function() {
 		this.control({
 			'viewport' : {
@@ -17,15 +21,17 @@ Ext.define('TT.controller.main.Main', {
 	onViewportRender : function() {
 		console.log('Viewport onrender');
 	},
-
+	
 	onViewportAfterRender : function() {
 		console.log('Viewport after render');
+		var me = this;
 		Ext.Ajax.request({
 			url : 'getUser',
 			success : function(response, opts) {
 				// Update north region
 				console.log("ajax success");
 				var obj = Ext.decode(response.responseText);
+				me.currentUserId = obj.userInfo.id;
 				Ext.getCmp('north_region').update(obj.userInfo);
 				// Update logout button
 				Ext.get('logout_btn').on('click', function(e, t, eOpts) {
@@ -57,7 +63,7 @@ Ext.define('TT.controller.main.Main', {
 
 	onMainWestDVItemClick : function(dataview, record) {
 		console.log('onMainWestDVItemClick ..');
-		var centerRegion = dataview.up('viewport').down('#center_region');
+		var centerRegion = this.getCenterRegion(); // ref:centerRegion
 		var itemId = record.get('id');
 		console.log('Item Id: ' + itemId);
 		if (typeof centerRegion.getComponent(itemId) != 'undefined') {

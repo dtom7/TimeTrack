@@ -12,7 +12,7 @@ Ext.define('TT.model.Address', {
 		type : 'string'
 	}, {
 		name : 'city',
-		type : 'boolean'
+		type : 'string'
 	}, {
 		name : 'state',
 		type : 'string'

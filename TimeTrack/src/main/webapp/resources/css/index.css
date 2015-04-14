@@ -10,14 +10,14 @@
 	cursor: pointer;
 }
 
-table {
+ #header-table {
 	height: 70px;
 	width: 100%;
 }
 
-td {
+#header-table td {
 	padding: 20px;
-}
+} 
 
 .td-left-data {
 	text-align: left;
@@ -57,4 +57,8 @@ li {
 
 .list-row-selected {
 	background-color: #0080ff;
+}
+
+.field-margin {
+	margin: 10px;
 }

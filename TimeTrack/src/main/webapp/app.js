@@ -1,9 +1,9 @@
 Ext.application({
 	name : 'TT',
 	appFolder : 'app',
-	controllers : [ 'main.Main', 'common.CommonController',
+	controllers : [ 'main.MainController', 'common.CommonController',
 			'user.UserController', 'admin.AdminController' ],
-
+	models: ['User', 'Address', 'Phone'],
 	launch : function() {
 		
         // This override is required to send model associations also to the server
