@@ -14,14 +14,14 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->
 </head>
-<body ng-cloak>
+<body>
 
 	<!-- /container -->
 	<div class="container">
 
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<div class="tab-container">
+				<div class="tab-container" ng-cloak>
 					<tabset justified="true"> <tab heading="Authenticate">
 					<form novalidate name="loginForm" ng-controller="LoginController">
 						<div class="form-group">
@@ -80,6 +80,12 @@
 	<script type="text/javascript" src="resources/js/modules/login/app.js"></script>
 	<script type="text/javascript"
 		src="resources/js/modules/login/controllers.js"></script>
+	<script type="text/javascript"
+		src="resources/js/modules/common/app.js"></script>
+	<script type="text/javascript"
+		src="resources/js/modules/common/controllers.js"></script>
+	<script type="text/javascript"
+		src="resources/js/modules/common/services.js"></script>
 	<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
 
 </body>

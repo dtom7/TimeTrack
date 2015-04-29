@@ -6,22 +6,22 @@ import java.util.List;
 public class LinkWrapper {
 	
 	private boolean success;
-	private List<LinkInfo> data;
+	private List<LinkInfo> links;
 	public LinkWrapper(boolean success, User user) {
 		this.success = success;
-		this.data = new ArrayList<LinkInfo>();
+		this.links = new ArrayList<LinkInfo>();
 		System.out.println(user.getUserRoles());
 		if (user.getUserRoles().contains(Role.ROLE_ADMIN)) {
-			this.data.add(new LinkInfo("My Profile", "My-Profile"));
-			this.data.add(new LinkInfo("My Notifications", "My-Notifications"));
-			this.data.add(new LinkInfo("Manage Users", "Manage-Users"));
-			this.data.add(new LinkInfo("Manage Projects", "Manage-Projects"));
-			this.data.add(new LinkInfo("Manage Clients", "Manage-Clients"));
-			this.data.add(new LinkInfo("Approve Timesheets", "Approve-Timesheets"));
+			this.links.add(new LinkInfo("My Profile", "My-Profile"));
+			this.links.add(new LinkInfo("My Notifications", "My-Notifications"));
+			this.links.add(new LinkInfo("Manage Users", "Manage-Users"));
+			this.links.add(new LinkInfo("Manage Projects", "Manage-Projects"));
+			this.links.add(new LinkInfo("Manage Clients", "Manage-Clients"));
+			this.links.add(new LinkInfo("Approve Timesheets", "Approve-Timesheets"));
 		} else {
-			this.data.add(new LinkInfo("My Profile", "My-Profile"));
-			this.data.add(new LinkInfo("My Timesheets", "My-Timesheets"));
-			this.data.add(new LinkInfo("My Notifications", "My-Notifications"));
+			this.links.add(new LinkInfo("My Profile", "My-Profile"));
+			this.links.add(new LinkInfo("My Timesheets", "My-Timesheets"));
+			this.links.add(new LinkInfo("My Notifications", "My-Notifications"));
 		}
 	}
 	public boolean isSuccess() {
@@ -30,11 +30,11 @@ public class LinkWrapper {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-	public List<LinkInfo> getData() {
-		return data;
+	public List<LinkInfo> getLinks() {
+		return links;
 	}
-	public void setData(List<LinkInfo> data) {
-		this.data = data;
+	public void setLinks(List<LinkInfo> links) {
+		this.links = links;
 	}
 	
 	private static class LinkInfo {

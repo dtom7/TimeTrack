@@ -22,3 +22,8 @@ form {
 input.invalid-input {
 	border-color: red;
 }
+
+[ng-cloak]
+{
+  display: none !important;
+}

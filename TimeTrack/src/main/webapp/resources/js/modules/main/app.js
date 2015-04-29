@@ -1,1 +1,1 @@
-angular.module('main', [ 'ui.bootstrap' ]);
+angular.module('main', [ 'ui.bootstrap', 'common' ]);
