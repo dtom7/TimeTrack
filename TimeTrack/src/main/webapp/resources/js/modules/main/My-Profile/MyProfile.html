@@ -1,1 +1,52 @@
-<h4 class="page-header">My Profile</h4>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">My Profile</h4>
+	</div>
+	<div class="panel-body">
+		<form novalidate name="myProfileForm"
+			ng-controller="MyProfileController">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="email">Email address</label> <input type="text"
+							class="form-control" id="email" placeholder="Enter email address"
+							name="userEmail" ng-model="user.email" ng-required="true"
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userEmail.$invalid}">
+						<div ng-show="formSubmitted && myProfileForm.userEmail.$invalid">Email
+							address cannot be blank</div>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label> <input type="password"
+							class="form-control" id="password" placeholder="Enter password"
+							name="userPassword" ng-model="user.password" ng-required="true"
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userPassword.$invalid}">
+						<div
+							ng-show="formSubmitted && myProfileForm.userPassword.$invalid">Password
+							cannot be blank</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="email">Email address</label> <input type="text"
+							class="form-control" id="email" placeholder="Enter email address"
+							name="userEmail" ng-model="user.email" ng-required="true"
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userEmail.$invalid}">
+						<div ng-show="formSubmitted && myProfileForm.userEmail.$invalid">Email
+							address cannot be blank</div>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label> <input type="password"
+							class="form-control" id="password" placeholder="Enter password"
+							name="userPassword" ng-model="user.password" ng-required="true"
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userPassword.$invalid}">
+						<div
+							ng-show="formSubmitted && myProfileForm.userPassword.$invalid">Password
+							cannot be blank</div>
+					</div>
+				</div>
+			</div>
+			<button ng-click="submitForm()" class="btn btn-primary btn-sm">Login</button>
+			<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
+		</form>
+	</div>
+</div>

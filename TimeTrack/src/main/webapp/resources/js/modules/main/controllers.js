@@ -3,6 +3,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 	$scope.userInfo = {};
 	$scope.links = [];
 	$scope.linkID = 'Home';
+	$scope.user = {};
 
 	$http({
 		method : 'GET',
@@ -16,6 +17,17 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 		}).success(function(data, status, headers, config) {
 			console.log('Ajax Success: ' + angular.toJson(data));
 			$scope.links = data.links;
+		}).error(function(data, status, headers, config) {
+			console.log('Ajax Failed: ' + angular.toJson(data));
+			customModalService.open('Error communicating with server');
+		});
+		/* get the full user object */
+		$http({
+			method : 'GET',
+			url : "users/" + $scope.userInfo.id
+		}).success(function(rdata, status, headers, config) {
+			console.log('Ajax Success: ' + angular.toJson(rdata));
+			$scope.user = angular.copy(rdata.data);
 		}).error(function(data, status, headers, config) {
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');
