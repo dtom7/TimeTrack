@@ -1,0 +1,1 @@
+angular.module('Manage-Clients', [ 'ui.bootstrap', 'common' ]);

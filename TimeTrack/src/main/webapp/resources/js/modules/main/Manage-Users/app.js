@@ -1,0 +1,1 @@
+angular.module('Manage-Users', [ 'ui.bootstrap', 'common' ]);

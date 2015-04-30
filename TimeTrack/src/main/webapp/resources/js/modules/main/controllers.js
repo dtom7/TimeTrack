@@ -2,6 +2,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 	console.log('MainController ..');
 	$scope.userInfo = {};
 	$scope.links = [];
+	$scope.linkID = 'Home';
 
 	$http({
 		method : 'GET',
@@ -30,7 +31,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 			url : "j_spring_security_logout"
 		}).success(function(data, status, headers, config) {
 			console.log('Ajax Success: ' + angular.toJson(data));
-			window.location.assign(window.location.protocol + '//' + window.location.host + '/TimeTrack/');
+			window.location.assign(window.location.protocol + '//' + window.location.host + '/TimeTrack/login.html');
 		}).error(function(data, status, headers, config) {
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');

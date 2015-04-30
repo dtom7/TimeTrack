@@ -1,0 +1,1 @@
+angular.module('My-Notifications', [ 'ui.bootstrap', 'common' ]);

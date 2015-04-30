@@ -1,0 +1,1 @@
+angular.module('My-Profile', [ 'ui.bootstrap', 'common' ]);

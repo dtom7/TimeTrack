@@ -1,5 +1,5 @@
 angular.module('common').factory('customModalService', [ '$modal', function($modal) {
-	console.log('In service');
+	console.log('In customModalService');
 
 	var customModal = {
 		open : function(inmessage) {

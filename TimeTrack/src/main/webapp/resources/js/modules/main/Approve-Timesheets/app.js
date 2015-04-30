@@ -1,0 +1,1 @@
+angular.module('Approve-Timesheets', [ 'ui.bootstrap', 'common' ]);
