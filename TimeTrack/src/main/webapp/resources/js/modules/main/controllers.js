@@ -28,6 +28,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 		}).success(function(rdata, status, headers, config) {
 			console.log('Ajax Success: ' + angular.toJson(rdata));
 			$scope.user = angular.copy(rdata.data);
+			$scope.$broadcast('userDataReceived', $scope.user);
 		}).error(function(data, status, headers, config) {
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');

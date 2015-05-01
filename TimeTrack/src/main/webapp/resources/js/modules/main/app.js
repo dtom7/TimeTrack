@@ -1,5 +1,5 @@
-var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users', 'Manage-Projects',
-		'Manage-Clients', 'Approve-Timesheets', 'My-Timesheets' ]);
+var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users',
+		'Manage-Projects', 'Manage-Clients', 'Approve-Timesheets', 'My-Timesheets' ]);
 
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
