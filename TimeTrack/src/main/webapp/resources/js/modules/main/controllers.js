@@ -1,9 +1,9 @@
 angular.module('main').controller('MainController', [ '$scope', '$http', 'customModalService', function($scope, $http, customModalService) {
 	console.log('MainController ..');
+	
 	$scope.userInfo = {};
 	$scope.links = [];
 	$scope.linkID = 'Home';
-	$scope.user = {};
 
 	$http({
 		method : 'GET',
@@ -17,18 +17,6 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 		}).success(function(data, status, headers, config) {
 			console.log('Ajax Success: ' + angular.toJson(data));
 			$scope.links = data.links;
-		}).error(function(data, status, headers, config) {
-			console.log('Ajax Failed: ' + angular.toJson(data));
-			customModalService.open('Error communicating with server');
-		});
-		/* get the full user object */
-		$http({
-			method : 'GET',
-			url : "users/" + $scope.userInfo.id
-		}).success(function(rdata, status, headers, config) {
-			console.log('Ajax Success: ' + angular.toJson(rdata));
-			$scope.user = angular.copy(rdata.data);
-			$scope.$broadcast('userDataReceived', $scope.user);
 		}).error(function(data, status, headers, config) {
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');
@@ -49,6 +37,6 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');
 		});
-	}
+	};
 
 } ]);
