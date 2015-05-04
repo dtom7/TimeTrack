@@ -1,4 +1,4 @@
-angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$http', '$timeout', 'customModalService', function($scope, $http, $timeout, customModalService) {
+angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$http', '$timeout', 'customModalService', '$window', function($scope, $http, $timeout, customModalService, $window) {
 	console.log('MyProfileController ..');
 
 	$scope.$parent.linkID = 'My-Profile';
@@ -6,33 +6,47 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.user = {};
 	$scope.original = {};
 
-	$http({
-		method : 'GET',
-		url : "getUser"
-	}).success(function(data, status, headers, config) {
-		console.log('Ajax Success: ' + angular.toJson(data));
-		/* now get the full user object */
+	try {
+
 		$http({
 			method : 'GET',
-			url : "users/" + data.userInfo.id
-		}).success(function(rdata, status, headers, config) {
-			console.log('Ajax Success: ' + angular.toJson(rdata));
-			$scope.user = angular.copy(rdata.data);
-			$scope.original = angular.copy(rdata.data);
-			// Calling set-pristine after digest cycle.
-			if ($scope.myProfileForm) {
-				$timeout(function() {
-					$scope.myProfileForm.$setPristine();
+			url : "getUser"
+		}).success(function(data, status, headers, config) {
+			console.log('Ajax Success: ' + angular.toJson(status));
+			/* now get the full user object */
+			try {
+				
+				$http({
+					method : 'GET',
+					url : "users/" + data.userInfo.id
+				}).success(function(rdata, status, headers, config) {
+					console.log('Ajax Success: ' + angular.toJson(status));
+					$scope.user = angular.copy(rdata.data);
+					$scope.original = angular.copy(rdata.data);
+					// Calling set-pristine after digest cycle.
+					if ($scope.myProfileForm) {
+						$timeout(function() {
+							$scope.myProfileForm.$setPristine();
+						});
+					}
+				}).error(function(data, status, headers, config) {
+					console.log('Ajax Failed: ' + angular.toJson(data));
+					customModalService.open('Error communicating with server');
 				});
+				
+			} catch (err) {
+				console.log('Error: ' + err);
+				$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
 			}
 		}).error(function(data, status, headers, config) {
 			console.log('Ajax Failed: ' + angular.toJson(data));
 			customModalService.open('Error communicating with server');
 		});
-	}).error(function(data, status, headers, config) {
-		console.log('Ajax Failed: ' + angular.toJson(data));
-		customModalService.open('Error communicating with server');
-	});
+
+	} catch (err) {
+		console.log('Error: ' + err);
+		$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
+	}
 
 	$scope.revert = function() {
 		console.log('Reverting ..');
