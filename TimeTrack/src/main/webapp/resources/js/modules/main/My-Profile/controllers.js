@@ -5,6 +5,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.formSubmitted = false;
 	$scope.user = {};
 	$scope.original = {};
+	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	try {
 
@@ -15,7 +16,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 			console.log('Ajax Success: ' + angular.toJson(status));
 			/* now get the full user object */
 			try {
-				
+
 				$http({
 					method : 'GET',
 					url : "users/" + data.userInfo.id
@@ -33,7 +34,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 					console.log('Ajax Failed: ' + angular.toJson(data));
 					customModalService.open('Error communicating with server');
 				});
-				
+
 			} catch (err) {
 				console.log('Error: ' + err);
 				$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
@@ -65,9 +66,20 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 		if ($scope.myProfileForm.$valid) {
 			console.log('No errors: ' + angular.toJson($scope.user));
 
+			// Calling set-pristine after digest cycle.
+			if ($scope.myProfileForm) {
+				$timeout(function() {
+					$scope.myProfileForm.$setPristine();
+				});
+			}
 		} else {
 			console.log('Validation error(s)' + angular.toJson($scope.user));
+
 		}
 	};
+
+	$scope.$watch('user.password', function() {
+		$scope.user.cnfrmPassword = '';
+	});
 
 } ]);

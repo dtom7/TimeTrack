@@ -93,12 +93,16 @@ body {
   margin-top: 0;
 }
 
-[ng-cloak]
-{
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
 
 input.ng-valid.ng-modified {
     background-color: #EFE;
-    border-color: #6A6;
+    border-color: #000000;
+}
+
+input.invalid-input {
+    background-color: #fb99c5;
+    border-color: #000000;
 }

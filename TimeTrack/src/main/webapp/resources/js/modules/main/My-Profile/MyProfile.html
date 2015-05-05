@@ -6,14 +6,19 @@
 		<form novalidate name="myProfileForm"
 			ng-controller="MyProfileController" confirm-on-exit>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6" ng-cloak>
 					<div class="form-group">
 						<label for="email">Email address</label> <input type="text"
 							class="form-control" id="email" placeholder="Enter email address"
 							name="userEmail" ng-model="user.email" ng-required="true"
+							ng-pattern="emailPattern"
 							ng-class="{'invalid-input': formSubmitted && myProfileForm.userEmail.$invalid}">
-						<div ng-show="formSubmitted && myProfileForm.userEmail.$invalid">Email
+						<div
+							ng-show="formSubmitted && myProfileForm.userEmail.$error.required">Email
 							address cannot be blank</div>
+						<div
+							ng-show="formSubmitted && myProfileForm.userEmail.$error.pattern">Enter
+							a valid email address</div>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label> <input type="password"
@@ -21,33 +26,46 @@
 							name="userPassword" ng-model="user.password" ng-required="true"
 							ng-class="{'invalid-input': formSubmitted && myProfileForm.userPassword.$invalid}">
 						<div
-							ng-show="formSubmitted && myProfileForm.userPassword.$invalid">Password
+							ng-show="formSubmitted && myProfileForm.userPassword.$error.required">Password
 							cannot be blank</div>
 					</div>
+					<div class="form-group"
+						ng-show="myProfileForm.userPassword.modified">
+						<label for="cnfrmPassword">Confirm Password</label> <input
+							type="password" class="form-control" id="cnfrmPassword"
+							placeholder="Re-Enter password" name="userCnfrmPassword"
+							ng-model="user.cnfrmPassword"
+							ng-required="myProfileForm.userPassword.modified" cnfrmpsw
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userCnfrmPassword.$invalid}">
+						<div
+							ng-show="formSubmitted && (myProfileForm.userCnfrmPassword.$error.required || myProfileForm.userCnfrmPassword.$error.cnfrmpsw)">Confirm
+							Password cannot be blank and must match Password</div>
+					</div>
+					<div class="form-group">
+						<label for="uname">Name</label> <input type="text"
+							class="form-control" id="uname" placeholder="Enter Name"
+							name="userName" ng-model="user.name" ng-required="true"
+							ng-class="{'invalid-input': formSubmitted && myProfileForm.userName.$invalid}">
+						<div
+							ng-show="formSubmitted && myProfileForm.userName.$error.required">Name
+							cannot be blank</div>
+					</div>
+					<div class="form-group">
+						<label for="enabled" class="checkbox-inline"><input
+							type="checkbox" id="enabled" name="userEnabled"
+							ng-model="user.enabled"><strong>Enabled</strong></label>
+					</div>
+					<!-- http://jsfiddle.net/jaredwilli/vUSPu/ -->
 				</div>
 				<div class="col-md-6">
-					<div class="form-group">
-						<label for="email">Email address</label> <input type="text"
-							class="form-control" id="email" placeholder="Enter email address"
-							name="userEmail" ng-model="user.email" ng-required="true"
-							ng-class="{'invalid-input': formSubmitted && myProfileForm.userEmail.$invalid}">
-						<div ng-show="formSubmitted && myProfileForm.userEmail.$invalid">Email
-							address cannot be blank</div>
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label> <input type="password"
-							class="form-control" id="password" placeholder="Enter password"
-							name="userPassword" ng-model="user.password" ng-required="true"
-							ng-class="{'invalid-input': formSubmitted && myProfileForm.userPassword.$invalid}">
-						<div
-							ng-show="formSubmitted && myProfileForm.userPassword.$invalid">Password
-							cannot be blank</div>
-					</div>
+					<div class="form-group"></div>
+					<div class="form-group"></div>
 				</div>
 			</div>
-			<button ng-click="submitForm()" class="btn btn-primary btn-sm">Save</button>
-			<button ng-click="revert()" class="btn btn-primary btn-sm">Cancel</button>
-			Form modified: {{ myProfileForm.modified ? 'Yes' : 'No' }}
+			<button ng-click="submitForm()" class="btn btn-primary btn-sm"
+				ng-disabled="!myProfileForm.modified">Save</button>
+			<button ng-click="revert()" class="btn btn-primary btn-sm"
+				ng-disabled="!myProfileForm.modified">Discard</button>
 		</form>
 	</div>
 </div>
