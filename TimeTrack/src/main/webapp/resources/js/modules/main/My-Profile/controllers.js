@@ -6,7 +6,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.user = {};
 	$scope.original = {};
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+	$scope.userRoleStaticList = [ "ROLE_USER", "ROLE_ADMIN" ];
 	try {
 
 		$http({
@@ -81,5 +81,23 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.$watch('user.password', function() {
 		$scope.user.cnfrmPassword = '';
 	});
+
+	$scope.toggleUserRoles = function(userRole) {
+		console.log('userRole: ' + userRole);
+		if (_.contains($scope.user.userRoles, userRole)) {
+			$scope.user.userRoles = _.without($scope.user.userRoles, userRole);
+		} else {
+			$scope.user.userRoles.push(userRole);
+		}
+		console.log('C user.userRoles: ' + $scope.user.userRoles);
+		if ($scope.myProfileForm) {
+			if (_.isEqual($scope.original.userRoles, $scope.user.userRoles)) {
+				$scope.myProfileForm.modified = false;
+			} else {
+				$scope.myProfileForm.modified = true;
+			};
+			//http://stackoverflow.com/questions/14514461/how-can-angularjs-bind-to-list-of-checkbox-values
+		};
+	};
 
 } ]);

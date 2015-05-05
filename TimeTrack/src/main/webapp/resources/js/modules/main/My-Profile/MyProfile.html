@@ -56,6 +56,19 @@
 							ng-model="user.enabled"><strong>Enabled</strong></label>
 					</div>
 					<!-- http://jsfiddle.net/jaredwilli/vUSPu/ -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong>User Roles</strong>
+						</div>
+						<div class="panel-body">
+							<label class="checkbox-inline"
+								ng-repeat="userRole in userRoleStaticList"> <input
+								type="checkbox" name="formUserRoles"
+								ng-checked="user.userRoles.indexOf(userRole) != -1"
+								ng-click="toggleUserRoles(userRole)"> {{userRole}}
+							</label>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group"></div>
