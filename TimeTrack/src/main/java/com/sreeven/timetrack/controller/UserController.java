@@ -1,15 +1,7 @@
 package com.sreeven.timetrack.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,8 +64,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public SingleUserRESTWrapper updateUser(@RequestBody User user, @PathVariable long id) {
-		System.out.println("updateUser: " + user.getUserPhones());
+	public SingleUserRESTWrapper updateUser(@RequestBody SingleUserRESTWrapper userWrapper, @PathVariable long id) { //@RequestBody SingleUserRESTWrapper userWrapper,
+		User user = userWrapper.getOriginalUser();
+		System.out.println("updateUser: " + user);
 		return new SingleUserRESTWrapper(true, userService.updateUser(user));
 	}
 	

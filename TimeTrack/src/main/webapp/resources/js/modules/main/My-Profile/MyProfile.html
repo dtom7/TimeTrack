@@ -34,7 +34,7 @@
 						<label for="cnfrmPassword">Confirm Password</label> <input
 							type="password" class="form-control" id="cnfrmPassword"
 							placeholder="Re-Enter password" name="userCnfrmPassword"
-							ng-model="user.cnfrmPassword"
+							ng-model="cnfrmPassword"
 							ng-required="myProfileForm.userPassword.modified" cnfrmpsw
 							ng-class="{'invalid-input': formSubmitted && myProfileForm.userCnfrmPassword.$invalid}">
 						<div
@@ -62,10 +62,9 @@
 						</div>
 						<div class="panel-body">
 							<label class="checkbox-inline"
-								ng-repeat="userRole in userRoleStaticList"> <input
+								ng-repeat="userRole in user.userRoles"> <input
 								type="checkbox" name="formUserRoles"
-								ng-checked="user.userRoles.indexOf(userRole) != -1"
-								ng-click="toggleUserRoles(userRole)"> {{userRole}}
+								ng-model="userRole.selected"> {{userRole.role}}
 							</label>
 						</div>
 					</div>

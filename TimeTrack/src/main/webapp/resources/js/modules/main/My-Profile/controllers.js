@@ -7,6 +7,8 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.original = {};
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$scope.userRoleStaticList = [ "ROLE_USER", "ROLE_ADMIN" ];
+	$scope.cnfrmPassword = '';
+	
 	try {
 
 		$http({
@@ -66,12 +68,32 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 		if ($scope.myProfileForm.$valid) {
 			console.log('No errors: ' + angular.toJson($scope.user));
 
-			// Calling set-pristine after digest cycle.
-			if ($scope.myProfileForm) {
-				$timeout(function() {
-					$scope.myProfileForm.$setPristine();
-				});
-			}
+			$http.put("users/" + $scope.user.id, {
+				success : true,
+				data : $scope.user
+			}).success(function(rdata, status, headers, config) {
+				console.log('Ajax PUT Success: ' + angular.toJson(rdata));
+				$scope.user = angular.copy(rdata.data);
+				$scope.original = angular.copy(rdata.data);				
+				// Calling set-pristine after digest cycle.
+				if ($scope.myProfileForm) {
+					$timeout(function() {
+						$scope.myProfileForm.$setPristine();
+					});
+				}
+
+			}).error(function(data, status, headers, config) {
+				console.log('Ajax PUT Failed: ' + angular.toJson(data));
+				customModalService.open('Error communicating with server');
+				
+				// Calling set-pristine after digest cycle.
+				if ($scope.myProfileForm) {
+					$timeout(function() {
+						$scope.myProfileForm.$setPristine();
+					});
+				}
+			});
+
 		} else {
 			console.log('Validation error(s)' + angular.toJson($scope.user));
 
@@ -79,25 +101,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	};
 
 	$scope.$watch('user.password', function() {
-		$scope.user.cnfrmPassword = '';
+		$scope.cnfrmPassword = '';
 	});
-
-	$scope.toggleUserRoles = function(userRole) {
-		console.log('userRole: ' + userRole);
-		if (_.contains($scope.user.userRoles, userRole)) {
-			$scope.user.userRoles = _.without($scope.user.userRoles, userRole);
-		} else {
-			$scope.user.userRoles.push(userRole);
-		}
-		console.log('C user.userRoles: ' + $scope.user.userRoles);
-		if ($scope.myProfileForm) {
-			if (_.isEqual($scope.original.userRoles, $scope.user.userRoles)) {
-				$scope.myProfileForm.modified = false;
-			} else {
-				$scope.myProfileForm.modified = true;
-			};
-			//http://stackoverflow.com/questions/14514461/how-can-angularjs-bind-to-list-of-checkbox-values
-		};
-	};
 
 } ]);
