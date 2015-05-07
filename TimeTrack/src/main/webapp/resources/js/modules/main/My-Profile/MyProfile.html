@@ -63,7 +63,7 @@
 						<div class="panel-body">
 							<label class="checkbox-inline"
 								ng-repeat="userRole in user.userRoles"> <input
-								type="checkbox" name="formUserRoles"
+								type="checkbox" name="user.userRoles[{{ userRole.role }}]"
 								ng-model="userRole.selected"> {{userRole.role}}
 							</label>
 						</div>

@@ -4,11 +4,10 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.$parent.linkID = 'My-Profile';
 	$scope.formSubmitted = false;
 	$scope.user = {};
-	$scope.original = {};
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$scope.userRoleStaticList = [ "ROLE_USER", "ROLE_ADMIN" ];
 	$scope.cnfrmPassword = '';
-	
+
 	try {
 
 		$http({
@@ -25,7 +24,6 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 				}).success(function(rdata, status, headers, config) {
 					console.log('Ajax Success: ' + angular.toJson(status));
 					$scope.user = angular.copy(rdata.data);
-					$scope.original = angular.copy(rdata.data);
 					// Calling set-pristine after digest cycle.
 					if ($scope.myProfileForm) {
 						$timeout(function() {
@@ -54,7 +52,7 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.revert = function() {
 		console.log('Reverting ..');
 		$scope.formSubmitted = false;
-		$scope.user = angular.copy($scope.original);
+		$scope.myProfileForm.reset();
 		// Calling set-pristine after digest cycle.
 		if ($scope.myProfileForm) {
 			$timeout(function() {
@@ -72,26 +70,24 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 				success : true,
 				data : $scope.user
 			}).success(function(rdata, status, headers, config) {
-				console.log('Ajax PUT Success: ' + angular.toJson(rdata));
-				$scope.user = angular.copy(rdata.data);
-				$scope.original = angular.copy(rdata.data);				
-				// Calling set-pristine after digest cycle.
-				if ($scope.myProfileForm) {
-					$timeout(function() {
-						$scope.myProfileForm.$setPristine();
-					});
+				console.log('Ajax PUT OK: ' + angular.toJson(rdata));
+				if (rdata.success) {
+					console.log('New Version: ' + rdata.data.version);
+					$scope.user.version = rdata.data.version;
+					// Calling set-pristine after digest cycle.
+					if ($scope.myProfileForm) {
+						$timeout(function() {
+							$scope.myProfileForm.$setPristine();
+						});
+					}
+					customModalService.open("Saved Successfully");
+				} else {
+					customModalService.open(rdata.message);
 				}
 
 			}).error(function(data, status, headers, config) {
 				console.log('Ajax PUT Failed: ' + angular.toJson(data));
 				customModalService.open('Error communicating with server');
-				
-				// Calling set-pristine after digest cycle.
-				if ($scope.myProfileForm) {
-					$timeout(function() {
-						$scope.myProfileForm.$setPristine();
-					});
-				}
 			});
 
 		} else {

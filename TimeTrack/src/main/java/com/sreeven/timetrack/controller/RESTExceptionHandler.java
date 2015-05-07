@@ -23,7 +23,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 		switch (e.getClass().getName()) {
 
 		case "org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException":
-			retString = "Concurrent modification exception !!";
+			retString = "Concurrent modification detected .. \r\nRefresh the browser and try again ..";
 			break;
 		case "org.springframework.dao.DataIntegrityViolationException":
 			retString = "Data integrity violation exception !!";
