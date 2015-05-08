@@ -3,13 +3,19 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 
 	$scope.$parent.linkID = 'My-Profile';
 	$scope.formSubmitted = false;
-	$scope.user = {};
+	$scope.user = {
+		userAddresses : [],
+		userPhones : []
+	};
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$scope.userRoleStaticList = [ "ROLE_USER", "ROLE_ADMIN" ];
 	$scope.cnfrmPassword = '';
 	$scope.staticAddressTypes = [ 'HOME', 'WORK', 'BUSINESS' ];
-	$scope.currentAddressTypes = ['HOME', 'BUSINESS'];
-	$scope.radioAddressModel = '';
+	$scope.currentAddressTypes = {
+		userAddresses : [],
+		newAddressType : '',
+		oneAtATime : false
+	};
 
 	try {
 
@@ -102,21 +108,26 @@ angular.module('My-Profile').controller('MyProfileController', [ '$scope', '$htt
 	$scope.$watch('user.password', function() {
 		$scope.cnfrmPassword = '';
 	});
-	
-	$scope.$watch('user.userAddresses', $scope.getCurrentAddressTypes);
 
-	$scope.getCurrentAddressTypes = function() {
+	$scope.$watchCollection('user.userAddresses', function(newColl, oldColl) {
 		var userAddresses = [];
 		angular.forEach($scope.user.userAddresses, function(userAddress) {
 			userAddresses.push(userAddress.addressType);
 		});
-		
-		//$scope.currentAddressTypes = _.difference($scope.staticAddressTypes, userAddresses);
-		//$scope.currentAddressTypes = ['TEST'];
-		console.log('cat: ' + $scope.currentAddressTypes);
-		$timeout(function(){
-			$scope.currentAddressTypes.push('TEST');
-		})
+		$scope.currentAddressTypes.userAddresses = _.difference($scope.staticAddressTypes, userAddresses);
+	});
+
+	$scope.addressDropDown = function(target) {
+		$scope.user.userAddresses.push({
+			addressType : target,
+			address1 : '',
+			address2 : '',
+			city : '',
+			state : '',
+			zipCode : '',
+			country : ''
+		});
+		$scope.currentAddressTypes.newAddressType = target;
 	};
 
 } ]);
