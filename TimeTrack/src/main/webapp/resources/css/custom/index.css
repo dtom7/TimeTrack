@@ -100,33 +100,47 @@ body {
 	display: none !important;
 }
 
-input.ng-valid.ng-modified {
-	background-color: #EFE;
-	border-color: #000000;
+input.invalid-input {
+	border-color: red;
 }
 
-input.invalid-input {
-	background-color: #fb99c5;
-	border-color: #000000;
+div.invalid-input {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	border: 1px solid red;
 }
 
 div.main-panel-body {
 	background-color: #ffffff;
 }
 
-div.label-space label {
-	width: 70px;
+div.address-label-space label {
+	width: 80px;
+}
+
+div.phone-label-space label {
+	width: 110px;
 }
 
 .tab-contents {
 	padding-top: 20px;
 	padding-right: 10px;
-	padding-bottom: 0px;
+	padding-bottom: 15px;
 	padding-left: 10px;
 	background: #ffffff;
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	margin-bottom: 10px;
 }
 
 div.user-spec .nav-tabs {
 	font-size: 13px;
 	font-weight: bold;
+} 
+
+div.user-spec .tab-invalid-class {
+	background: #ff0080;
+	color: #ffffff;
 } 

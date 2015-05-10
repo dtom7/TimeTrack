@@ -4,7 +4,8 @@
 	</div>
 	<div class="panel-body main-panel-body">
 		<form novalidate name="myProfileForm"
-			ng-controller="MyProfileController" confirm-on-exit>
+			ng-controller="MyProfileController" confirm-on-exit current="user"
+			original="originalUser">
 			<div class="row">
 				<div class="col-md-6" ng-cloak>
 					<div class="well">
@@ -26,6 +27,7 @@
 							<label for="password">Password</label> <input type="password"
 								class="form-control" id="password" placeholder="Enter password"
 								name="userPassword" ng-model="user.password" ng-required="true"
+								bs-modifiable="true"
 								ng-class="{'invalid-input': formSubmitted && myProfileForm.userPassword.$invalid}">
 							<div
 								ng-show="formSubmitted && myProfileForm.userPassword.$error.required">Password
@@ -64,11 +66,18 @@
 							<strong>User Roles</strong>
 						</div>
 						<div class="panel-body">
-							<label class="checkbox-inline"
-								ng-repeat="userRole in user.userRoles"> <input
-								type="checkbox" name="user.userRoles[{{ userRole.role }}]"
-								ng-model="userRole.selected"> {{userRole.role}}
-							</label>
+							<div
+								ng-class="{'invalid-input': formSubmitted && !userRolesList.oneValueSelected}">
+								<label class="checkbox-inline"
+									ng-repeat="userRole in user.userRoles | orderBy: 'role'">
+									<input type="checkbox"
+									name="user.userRoles[{{ userRole.role }}]"
+									ng-model="userRole.selected" user-role-required>
+									{{userRole.role}}
+								</label>
+							</div>
+							<span ng-show="formSubmitted && !userRolesList.oneValueSelected">At
+								least one role must be selected</span>
 						</div>
 					</div>
 				</div>
@@ -78,11 +87,14 @@
 							<strong>User Addresses</strong>
 						</div>
 						<div class="panel-body">
-							<tabset> <tab justified="true"
-								ng-repeat="userAddress in user.userAddresses"
-								heading="{{userAddress.addressType}}">
+							<tabset> <tab justified="true" active="tabActive"
+								ng-repeat="userAddress in user.userAddresses | orderBy: 'addressType'">
+							<tab-heading>{{userAddress.addressType}} <span
+								class="tab-invalid-class"
+								ng-show="isAddressInvalid(myProfileForm, userAddress.addressType)">
+								- Error(s)</span></tab-heading>
 							<div class="tab-contents">
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="address1">Address1: </label> <input type="text"
 										id="address1" placeholder="Enter Address1"
 										name="userAddress1_{{userAddress.addressType}}"
@@ -92,13 +104,13 @@
 										ng-show="formSubmitted && myProfileForm.userAddress1_{{userAddress.addressType}}.$error.required">Address1
 										cannot be blank</span>
 								</div>
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="address2">Address2: </label> <input type="text"
 										id="address2" placeholder="Enter Address2"
 										name="userAddress2_{{userAddress.addressType}}"
 										ng-model="userAddress.address2">
 								</div>
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="city">City: </label> <input type="text" id="city"
 										placeholder="Enter City"
 										name="userCity_{{userAddress.addressType}}"
@@ -108,7 +120,7 @@
 										ng-show="formSubmitted && myProfileForm.userCity_{{userAddress.addressType}}.$error.required">City
 										cannot be blank</span>
 								</div>
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="state">State: </label> <input type="text"
 										id="state" placeholder="Enter State"
 										name="userState_{{userAddress.addressType}}"
@@ -118,7 +130,7 @@
 										ng-show="formSubmitted && myProfileForm.userState_{{userAddress.addressType}}.$error.required">State
 										cannot be blank</span>
 								</div>
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="zipCode">Zip Code: </label> <input type="text"
 										id="zipCode" placeholder="Enter Zip Code"
 										name="userZipCode_{{userAddress.addressType}}"
@@ -128,7 +140,7 @@
 										ng-show="formSubmitted && myProfileForm.userZipCode_{{userAddress.addressType}}.$error.required">Zip
 										Code cannot be blank</span>
 								</div>
-								<div class="label-space">
+								<div class="address-label-space">
 									<label for="country">Country: </label> <input type="text"
 										id="country" placeholder="Enter Country"
 										name="userCountry_{{userAddress.addressType}}"
@@ -138,18 +150,25 @@
 										ng-show="formSubmitted && myProfileForm.userCountry_{{userAddress.addressType}}.$error.required">Country
 										cannot be blank</span>
 								</div>
-							</div> <!-- tab-contents -->
-							</tab> </tabset>
-							<!-- well -->
-							<hr>
+							</div>
+							<!-- tab-contents --> </tab> </tabset>
 							<div>
 								<span class="dropdown" dropdown> <a href
-									class="dropdown-toggle" dropdown-toggle> Add new address </a>
+									class="dropdown-toggle" dropdown-toggle> Add Address </a>
 									<ul class="dropdown-menu"
 										ng-show="currentAddressTypes.userAddresses.length > 0">
 										<li
 											ng-repeat="currentAddressType in currentAddressTypes.userAddresses">
-											<a href="" ng-click="addressDropDown(currentAddressType)">{{currentAddressType}}</a>
+											<a href="" ng-click="addAddress(currentAddressType)">{{currentAddressType}}</a>
+										</li>
+									</ul>
+								</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="dropdown"
+									dropdown> <a href class="dropdown-toggle"
+									dropdown-toggle> Delete Address </a>
+									<ul class="dropdown-menu"
+										ng-show="user.userAddresses.length > 0">
+										<li ng-repeat="userAddress in user.userAddresses"><a
+											href="" ng-click="deleteAddress(userAddress.addressType)">{{userAddress.addressType}}</a>
 										</li>
 									</ul>
 								</span>
@@ -161,22 +180,60 @@
 							<strong>User Phones</strong>
 						</div>
 						<div class="panel-body">
-							<accordion> <accordion-group
-								ng-repeat="userPhone in user.userPhones | orderBy:'phoneType'"
-								heading="{{userPhone.phoneType}}"> </accordion-group> </accordion>
-							<hr>
-							<button ng-click="" class="btn btn-primary btn-sm">Add</button>
+							<tabset> <tab justified="true" active="tabActive"
+								ng-repeat="userPhone in user.userPhones | orderBy: 'phoneType'">
+							<tab-heading>{{userPhone.phoneType}} <span
+								class="tab-invalid-class"
+								ng-show="isPhoneInvalid(myProfileForm, userPhone.phoneType)">
+								- Error(s)</span></tab-heading>
+							<div class="tab-contents">
+								<div class="phone-label-space">
+									<label for="phoneNumber">Phone Number: </label> <input
+										type="text" id="phoneNumber" placeholder="Enter Phone Number"
+										name="userPhoneNumber_{{userPhone.phoneType}}"
+										ng-model="userPhone.phoneNumber" ng-required="true"
+										ng-class="{'invalid-input': formSubmitted && myProfileForm.userPhoneNumber_{{userPhone.phoneType}}.$invalid}">
+									<span
+										ng-show="formSubmitted && myProfileForm.userPhoneNumber_{{userPhone.phoneType}}.$error.required">Phone
+										Number cannot be blank</span>
+								</div>
+							</div>
+							<!-- tab-contents --> </tab> </tabset>
+							<div>
+								<span class="dropdown" dropdown> <a href
+									class="dropdown-toggle" dropdown-toggle> Add Phone </a>
+									<ul class="dropdown-menu"
+										ng-show="currentPhoneTypes.userPhones.length > 0">
+										<li
+											ng-repeat="currentPhoneType in currentPhoneTypes.userPhones">
+											<a href="" ng-click="addPhone(currentPhoneType)">{{currentPhoneType}}</a>
+										</li>
+									</ul>
+								</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="dropdown"
+									dropdown> <a href class="dropdown-toggle"
+									dropdown-toggle> Delete Phone </a>
+									<ul class="dropdown-menu" ng-show="user.userPhones.length > 0">
+										<li ng-repeat="userPhone in user.userPhones"><a href=""
+											ng-click="deletePhone(userPhone.phoneType)">{{userPhone.phoneType}}</a>
+										</li>
+									</ul>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<hr>
 			<div class="row">
-				<div class="col-md-6">
-					<button ng-click="submitForm()" class="btn btn-primary btn-md"
-						ng-disabled="!myProfileForm.modified">Save</button>
-					<button ng-click="revert()" class="btn btn-primary btn-md"
-						ng-disabled="!myProfileForm.modified">Discard</button>
+				<div class="col-md-12">
+					<div>
+						<button ng-click="submitForm()" class="btn btn-primary btn-md">Save</button>
+						<button ng-click="revert()" class="btn btn-primary btn-md">Discard</button>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
+							ng-show="formSubmitted && !myProfileForm.$valid">Form has
+							validation error(s) !!! Please correct the error(s) and save the
+							form again</span>
+					</div>
 				</div>
 			</div>
 		</form>

@@ -42,9 +42,9 @@ public class UserController {
 					new Address(AddressType.WORK, "321 King St", "", "Troy",
 							"NY", "98765", "USA"));
 			user.getUserPhones().add(
-					new Phone(PhoneType.HOME_PHONE, "123-456-7899"));
+					new Phone(PhoneType.HOME, "123-456-7899"));
 			user.getUserPhones().add(
-					new Phone(PhoneType.MOBILE_PHONE, "987-654-3211"));
+					new Phone(PhoneType.MOBILE, "987-654-3211"));
 			System.out.println("Creating user: " + user);
 			System.out.println("Created user: " + userService.createUser(user));
 		}
