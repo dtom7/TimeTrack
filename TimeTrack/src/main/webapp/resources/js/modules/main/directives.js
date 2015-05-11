@@ -15,9 +15,7 @@ angular.module('main').directive('cnfrmpsw', function() {
 			};
 		}
 	};
-});
-
-angular.module('main').directive('userRoleRequired', function() {
+}).directive('userRoleRequired', function() {
 	return {
 		restrict : 'A',
 		require : 'ngModel',
@@ -30,7 +28,8 @@ angular.module('main').directive('userRoleRequired', function() {
 					}
 				});
 				scope.userRolesList.oneValueSelected = oneValueSelected;
-				// if oneValueSelected, set the validity of the other check-box(s)
+				// if oneValueSelected, set the validity of the other
+				// check-box(s)
 				// to true since this has to work as a single unit
 				if (oneValueSelected) {
 					angular.forEach(scope.user.userRoles, function(userRole) {
@@ -42,5 +41,15 @@ angular.module('main').directive('userRoleRequired', function() {
 				return oneValueSelected;
 			};
 		}
+	};
+}).directive('userProfile', function() {
+	return {
+		restrict : 'A',
+		scope : {
+			userDataProvided: '@',
+			user: '=?user'
+		},
+		templateUrl : 'resources/js/modules/main/views/UserProfile.html',
+		controller: 'UserProfileController'
 	};
 });
