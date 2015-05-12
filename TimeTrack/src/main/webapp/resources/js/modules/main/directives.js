@@ -46,10 +46,9 @@ angular.module('main').directive('cnfrmpsw', function() {
 	return {
 		restrict : 'A',
 		scope : {
-			userDataProvided: '@',
-			user: '=?user'
+			user : '='
 		},
 		templateUrl : 'resources/js/modules/main/views/UserProfile.html',
-		controller: 'UserProfileController'
+		controller : 'UserProfileController'
 	};
 });

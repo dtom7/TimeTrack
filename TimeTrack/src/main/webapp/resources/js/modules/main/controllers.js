@@ -11,7 +11,6 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 			method : 'GET',
 			url : "getUser"
 		}).success(function(data, status, headers, config) {
-			console.log('Ajax Success: ' + angular.toJson(status));
 			$scope.userInfo = data.userInfo;
 
 			try {
@@ -20,10 +19,9 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 					method : 'GET',
 					url : "getLinks"
 				}).success(function(data, status, headers, config) {
-					console.log('Ajax Success: ' + angular.toJson(data));
 					$scope.links = data.links;
 				}).error(function(data, status, headers, config) {
-					console.log('Ajax Failed: ' + angular.toJson(data));
+					console.log('Ajax Failed: ' + angular.toJson(status));
 					customModalService.open('Error communicating with server');
 				});
 
@@ -69,12 +67,6 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 					$scope.formSubmitted = false;
 					$scope.tabActive = true;
 					$scope.originalUser = {};
-					if ($scope.userDataProvided === 'no') {
-						$scope.user = {
-							userAddresses : [],
-							userPhones : []
-						};
-					}
 					$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 					$scope.userRolesList = {
 						oneValueSelected : true
@@ -91,58 +83,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 						newPhoneType : ''
 					};
 
-					if ($scope.userDataProvided === 'yes') {
-						// This means user object is already provided
-						console.log('userDataProvided = yes');
-						$scope.originalUser = angular.copy($scope.user);
-					} else {
-						// This means user object is not already provided. Go
-						// and get it now.
-						console.log('userDataProvided = no');
-						try {
-
-							$http({
-								method : 'GET',
-								url : "getUser"
-							}).success(function(data, status, headers, config) {
-								console.log('Ajax Success: ' + angular.toJson(status));
-								/* now get the full user object */
-								try {
-
-									$http({
-										method : 'GET',
-										url : "users/" + data.userInfo.id
-									}).success(function(rdata, status, headers, config) {
-										console.log('Ajax Success: ' + angular.toJson(status));
-										$scope.user = angular.copy(rdata.data);
-										$scope.originalUser = angular.copy(rdata.data);
-										// Calling set-pristine after digest
-										// cycle.
-										if ($scope.myProfileForm) {
-											$timeout(function() {
-												$scope.myProfileForm.$setPristine();
-											});
-										}
-									}).error(function(data, status, headers, config) {
-										console.log('Ajax Failed: ' + angular.toJson(data));
-										customModalService.open('Error communicating with server');
-									});
-
-								} catch (err) {
-									console.log('Error: ' + err);
-									$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
-								}
-							}).error(function(data, status, headers, config) {
-								console.log('Ajax Failed: ' + angular.toJson(data));
-								customModalService.open('Error communicating with server');
-							});
-
-						} catch (err) {
-							console.log('Error: ' + err);
-							$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
-						}
-
-					}
+					$scope.originalUser = angular.copy($scope.user);
 
 					$scope.revert = function() {
 						console.log('Reverting ..');

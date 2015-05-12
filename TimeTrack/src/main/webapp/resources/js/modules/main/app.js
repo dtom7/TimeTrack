@@ -12,6 +12,23 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 	}).state('My-Profile', {
 		url : '/My-Profile',
 		templateUrl : 'resources/js/modules/main/My-Profile/MyProfile.html',
+		resolve : {
+			userPromise : function($http, $window) {
+				try {
+					return $http.get('getUser').then(function(rdata) {
+						try {
+							return $http.get('users/' + rdata.data.userInfo.id);
+						} catch (err) {
+							console.log('Error: ' + err);
+							$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
+						}
+					});
+				} catch (err) {
+					console.log('Error: ' + err);
+					$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
+				}
+			}
+		},
 		controller : 'MyProfileController'
 	}).state('My-Notifications', {
 		url : '/My-Notifications',
