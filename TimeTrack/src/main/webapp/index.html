@@ -28,7 +28,7 @@
 				<a class="navbar-brand" ui-sref="Home">Time Track</a>
 			</div>
 			<div class="collapse navbar-collapse" collapse="navbarCollapsed"
-				ng-cloak>
+				ng-cloak="">
 				<ul class="nav navbar-nav navbar-right">
 					<li><span class="navbar-text"><strong>User :
 								{{userInfo.name}}</strong></span></li>
@@ -46,7 +46,7 @@
 	<div class="container-fluid">
 
 		<div class="row">
-			<div class="col-sm-3 col-md-2 sidebar" ng-cloak>
+			<div class="col-sm-3 col-md-2 sidebar" ng-cloak="">
 				<ul class="nav nav-sidebar">
 					<li ng-repeat="linkItem in links"><a ui-sref="{{linkItem.id}}"
 						ng-class="{'link-focus': linkItem.id == linkID}">{{linkItem.link}}</a></li>
