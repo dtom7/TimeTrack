@@ -5,7 +5,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 	$scope.links = [];
 	$scope.linkID = 'Home';
 
-	try {
+/*	try {
 
 		$http({
 			method : 'GET',
@@ -38,7 +38,7 @@ angular.module('main').controller('MainController', [ '$scope', '$http', 'custom
 	} catch (err) {
 		console.log('Error: ' + err);
 		$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
-	}
+	}*/
 
 	$scope.logout = function() {
 		$http({

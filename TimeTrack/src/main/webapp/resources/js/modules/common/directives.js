@@ -17,6 +17,6 @@ angular.module('common').directive('confirmOnExit', function($rootScope, $state,
 			});
 			
 		}
-	}
+	};
 
 });

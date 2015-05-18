@@ -1,4 +1,4 @@
-var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'ngInputModified', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users', 'Manage-Projects', 'Manage-Clients',
+var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'ngInputModified', 'Login', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users', 'Manage-Projects', 'Manage-Clients',
 		'Approve-Timesheets', 'My-Timesheets' ]);
 
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -54,10 +54,27 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		url : '/My-Timesheets',
 		templateUrl : 'resources/js/modules/main/My-Timesheets/MyTimesheets.html',
 		controller : 'MyTimesheetsController'
+	}).state('Login', {
+		url : '/Login',
+		templateUrl : 'resources/js/modules/main/login/login.html',
+		controller : 'LoginController'
 	});
 
 } ]).config(function(inputModifiedConfigProvider) {
 	inputModifiedConfigProvider.disableGlobally();
 }).config([ '$httpProvider', function($httpProvider) {
-	$httpProvider.interceptors.push('responseChecker');
+	$httpProvider.interceptors.push('AuthInterceptor');
+} ]).run([ '$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
+	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+		if (!toState.name === 'Login') {
+		if (!Auth.isAuthenticated()) {
+			console.log('Not authenticated: ' + angular.toJson(toState) + ' ' + angular.toJson(fromState));
+			event.preventDefault();
+			$state.go('Login');
+		} else {
+			console.log('Authenticated: ' + angular.toJson(toState) + ' ' + angular.toJson(fromState));
+
+		}
+		}
+	});
 } ]);
