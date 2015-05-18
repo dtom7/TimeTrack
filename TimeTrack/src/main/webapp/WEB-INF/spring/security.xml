@@ -6,24 +6,52 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-   <http pattern="/resources/css/**" security="none" />
-   <http pattern="/resources/fonts/**" security="none" />
-   <http pattern="/resources/js/angular/**" security="none" />
-   <http pattern="/resources/js/bootstrap/**" security="none" />
-   <http pattern="/resources/js/jquery/**" security="none" />
-   <http pattern="/resources/js/modules/common/app.js" security="none" />
-   <http pattern="/resources/js/modules/common/controllers.js" security="none" />
-   <http pattern="/resources/js/modules/common/services.js" security="none" />
-   <http pattern="/resources/js/modules/login/**" security="none" />
+   <http pattern="/resources/**" security="none" />
    <http pattern="/login.html" security="none" />
-   <http auto-config="true">
-      <intercept-url pattern="/**" access="ROLE_USER" />
-      <form-login login-page="/login.html"
-         authentication-success-handler-ref="loginSuccessHandler"
-         authentication-failure-handler-ref="loginFailureHandler" />
-      <logout invalidate-session="true" logout-url="/j_spring_security_logout"
-         success-handler-ref="logoutSuccessHandler" />
+   <http pattern="/index.html" security="none" />
+
+   <http auto-config="false" create-session="stateless"
+      disable-url-rewriting="true" entry-point-ref="statelessAuthenticationEntryPoint">
+      <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
+
+      <custom-filter ref="customFilters" position="FORM_LOGIN_FILTER" />
    </http>
+
+   <bean:bean id="customFilters"
+      class="org.springframework.web.filter.CompositeFilter">
+      <bean:property name="filters">
+         <bean:list>
+            <bean:ref bean="statelessLoginFilter" />
+            <bean:ref bean="statelessAuthenticationFilter" />
+         </bean:list>
+      </bean:property>
+   </bean:bean>
+
+   <bean:bean id="statelessLoginFilter"
+      class="com.sreeven.timetrack.filter.StatelessLoginFilter">
+      <bean:constructor-arg value="/login" />
+      <bean:constructor-arg ref="tokenAuthenticationService" />
+      <bean:constructor-arg ref="userService" />
+      <bean:property name="authenticationManager" ref="authenticationManager" />
+
+   </bean:bean>
+
+   <bean:bean id="statelessAuthenticationFilter"
+      class="com.sreeven.timetrack.filter.StatelessAuthenticationFilter">
+      <bean:constructor-arg ref="tokenAuthenticationService" />
+   </bean:bean>
+
+   <bean:bean id="tokenAuthenticationService"
+      class="com.sreeven.timetrack.service.TokenAuthenticationService">
+      <bean:constructor-arg value="T3jxW4pqL7L1UesqdsGD" />
+      <bean:constructor-arg ref="userService" />
+   </bean:bean>
+
+   <bean:bean id="userService" class="com.sreeven.timetrack.service.UserServiceImpl" />
+
+   <bean:bean id="statelessAuthenticationEntryPoint"
+      class="com.sreeven.timetrack.security.StatelessAuthenticationEntryPoint">
+   </bean:bean>
 
    <authentication-manager alias="authenticationManager">
       <authentication-provider>
@@ -43,4 +71,5 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
       class="com.sreeven.timetrack.security.LoginFailureHandler" />
    <bean:bean id="logoutSuccessHandler"
       class="com.sreeven.timetrack.security.LogoutSuccessHandler" />
+
 </bean:beans>

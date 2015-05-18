@@ -58,4 +58,6 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 
 } ]).config(function(inputModifiedConfigProvider) {
 	inputModifiedConfigProvider.disableGlobally();
-});
+}).config([ '$httpProvider', function($httpProvider) {
+	$httpProvider.interceptors.push('responseChecker');
+} ]);

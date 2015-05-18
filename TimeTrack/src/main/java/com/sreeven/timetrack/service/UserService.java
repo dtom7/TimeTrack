@@ -3,10 +3,12 @@ package com.sreeven.timetrack.service;
 import java.util.List;
 
 import com.sreeven.timetrack.domain.User;
+import com.sreeven.timetrack.domain.UserAuthToken;
 
 
 public interface UserService {
 	
+	UserAuthToken loadUserAuthToken(String email);
 	List<User> getAllUsers();
 	User getUserById(Long id);
 	User getUserByEmail(String email);
