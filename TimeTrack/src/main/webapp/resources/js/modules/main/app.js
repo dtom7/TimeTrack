@@ -3,7 +3,10 @@ var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'ngInp
 
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise('/Home');
+	$urlRouterProvider.otherwise(function($injector) {
+		var $state = $injector.get('$state');
+		$state.go('Home');
+	});
 
 	$stateProvider.state('Home', {
 		url : '/Home',
@@ -13,20 +16,10 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		url : '/My-Profile',
 		templateUrl : 'resources/js/modules/main/My-Profile/MyProfile.html',
 		resolve : {
-			userPromise : function($http, $window) {
-				try {
-					return $http.get('getUser').then(function(rdata) {
-						try {
-							return $http.get('users/' + rdata.data.userInfo.id);
-						} catch (err) {
-							console.log('Error: ' + err);
-							$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
-						}
-					});
-				} catch (err) {
-					console.log('Error: ' + err);
-					$window.location.assign($window.location.protocol + '//' + $window.location.host + '/TimeTrack/login.html');
-				}
+			userPromise : function($http) {
+				return $http.get('getUser').then(function(rdata) {
+					return $http.get('users/' + rdata.data.userInfo.id);
+				});
 			}
 		},
 		controller : 'MyProfileController'
@@ -56,7 +49,7 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		controller : 'MyTimesheetsController'
 	}).state('Login', {
 		url : '/Login',
-		templateUrl : 'resources/js/modules/main/login/login.html',
+		templateUrl : 'resources/js/modules/main/Login/login.html',
 		controller : 'LoginController'
 	});
 
@@ -66,15 +59,11 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 	$httpProvider.interceptors.push('AuthInterceptor');
 } ]).run([ '$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-		if (!toState.name === 'Login') {
-		if (!Auth.isAuthenticated()) {
-			console.log('Not authenticated: ' + angular.toJson(toState) + ' ' + angular.toJson(fromState));
-			event.preventDefault();
-			$state.go('Login');
-		} else {
-			console.log('Authenticated: ' + angular.toJson(toState) + ' ' + angular.toJson(fromState));
-
-		}
+		if (toState.name != 'Login') {
+			if (!Auth.isAuthenticated()) {
+				event.preventDefault();
+				$state.go('Login');
+			}
 		}
 	});
 } ]);

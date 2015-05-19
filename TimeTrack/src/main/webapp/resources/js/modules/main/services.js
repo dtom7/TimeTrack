@@ -1,22 +1,20 @@
 angular.module('main').factory('AuthInterceptor', [ '$q', '$injector', function($q, $injector) {
 	var responseChecker = {
 		request : function(request) {
-			console.log('AuthInterceptor - request: ' + angular.toJson(request));
+			//console.log('AuthInterceptor - request: ' + angular.toJson(request));
 
 			return request;
 		},
 		response : function(response) {
-			console.log('AuthInterceptor - response: ' + angular.toJson(response));
+			//console.log('AuthInterceptor - response: ' + angular.toJson(response));
 
 			return response;
 		},
 		responseError : function(response) {
-			console.log('AuthInterceptor - responseError: ' + angular.toJson(response));
-			// $window.location.assign($window.location.protocol + '//' +
-			// $window.location.host + '/TimeTrack/login.html');
+			console.log('AuthInterceptor - responseError: ' + response.status);
 			if (response.status === 401 || response.status === 403) {
 				$injector.get('LocalStorageService').unset('auth_token');
-				//$injector.get('$state').go('Login');
+				$injector.get('$state').go('Login');
 			}
 			return $q.reject(response);
 		}

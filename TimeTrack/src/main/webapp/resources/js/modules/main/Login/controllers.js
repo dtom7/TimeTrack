@@ -18,7 +18,7 @@ angular.module('Login').controller('LoginController',
 				if ($scope.loginForm.$valid) {
 					//console.log('No errors L: ' + angular.toJson($scope.user));
 					//console.log(angular.toJson(window.location.protocol));
-					$http({
+					/*$http({
 						method : 'POST',
 						url : "j_spring_security_check",
 						transformRequest : function(obj) {
@@ -44,7 +44,7 @@ angular.module('Login').controller('LoginController',
 					}).error(function(data, status, headers, config) {
 						//console.log('Ajax Failed: ' + angular.toJson(data));
 						customModalService.open('Error communicating with server');
-					});
+					});*/
 
 				} else {
 					console.log('Validation error L !');
