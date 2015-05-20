@@ -6,7 +6,7 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 	$urlRouterProvider.otherwise(function($injector) {
 		$injector.get('$state').transitionTo('Home');
 	});
-
+    // https://github.com/angular-ui/ui-router/issues/582
 	$stateProvider.state('Home', {
 		url : '/Home',
 		templateUrl : 'resources/js/modules/main/Home/Home.html',
@@ -52,9 +52,9 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		controller : 'LoginController'
 	});
 
-} ]).config(function(inputModifiedConfigProvider) {
+} ]).config([ 'inputModifiedConfigProvider', function(inputModifiedConfigProvider) {
 	inputModifiedConfigProvider.disableGlobally();
-}).config([ '$httpProvider', function($httpProvider) {
+} ]).config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('AuthInterceptor');
 } ]).run([ '$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {

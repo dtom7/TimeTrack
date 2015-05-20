@@ -8,9 +8,10 @@ angular.module('main').factory('AuthInterceptor', [ '$q', '$injector', function(
 			return request;
 		},
 		response : function(response) {
-			// console.log('AuthInterceptor - response: ' +
-			// angular.toJson(response));
-
+			// console.log('AuthInterceptor - response: ' + response.headers('X-AUTH-TOKEN'));
+			if (response.headers('X-AUTH-TOKEN')) {
+				$injector.get('LocalStorageService').set('auth_token', response.headers('X-AUTH-TOKEN'));
+			}
 			return response;
 		},
 		responseError : function(response) {

@@ -24,6 +24,8 @@ import com.sreeven.timetrack.domain.UserAuthToken;
 import com.sreeven.timetrack.service.TokenAuthenticationService;
 import com.sreeven.timetrack.service.UserService;
 
+// This filter only responds to '/login' which is the defaultFilterProcessesUrl
+
 public class StatelessLoginFilter extends
 		AbstractAuthenticationProcessingFilter {
 

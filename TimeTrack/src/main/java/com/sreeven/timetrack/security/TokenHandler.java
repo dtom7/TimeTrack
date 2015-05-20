@@ -1,8 +1,11 @@
 package com.sreeven.timetrack.security;
 
+import java.util.Date;
+
 import com.sreeven.timetrack.domain.UserAuthToken;
 import com.sreeven.timetrack.service.UserService;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -18,14 +21,21 @@ public final class TokenHandler {
 
 	public UserAuthToken parseUserFromToken(String token) {
 		System.out.println("TokenHandler .. parseUserFromToken");
-		String username = Jwts.parser().setSigningKey(secret)
-				.parseClaimsJws(token).getBody().getSubject();
-		return userService.loadUserAuthToken(username);
+		try {
+			Claims claims = Jwts.parser().setSigningKey(secret)
+					.parseClaimsJws(token).getBody();
+			String username = claims.getSubject();
+			return userService.loadUserAuthToken(username);
+		} catch (Exception ex) {
+			System.out.println("Exception: " + ex.getMessage());
+			return null;
+		}
 	}
 
 	public String createTokenForUser(UserAuthToken user) {
 		return Jwts.builder().setSubject(user.getUsername())
 				.setId(Long.toString(user.getId()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1800000L))
 				.signWith(SignatureAlgorithm.HS256, secret).compact();
 	}
 }
