@@ -4,15 +4,14 @@ var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'ngInp
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise(function($injector) {
-		var $state = $injector.get('$state');
-		$state.go('Home');
+		$injector.get('$state').transitionTo('Home');
 	});
 
 	$stateProvider.state('Home', {
 		url : '/Home',
 		templateUrl : 'resources/js/modules/main/Home/Home.html',
 		controller : 'HomeController'
-	}).state('My-Profile', {
+	}).state('Home.My-Profile', {
 		url : '/My-Profile',
 		templateUrl : 'resources/js/modules/main/My-Profile/MyProfile.html',
 		resolve : {
@@ -23,27 +22,27 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 			}
 		},
 		controller : 'MyProfileController'
-	}).state('My-Notifications', {
+	}).state('Home.My-Notifications', {
 		url : '/My-Notifications',
 		templateUrl : 'resources/js/modules/main/My-Notifications/MyNotifications.html',
 		controller : 'MyNotificationsController'
-	}).state('Manage-Users', {
+	}).state('Home.Manage-Users', {
 		url : '/Manage-Users',
 		templateUrl : 'resources/js/modules/main/Manage-Users/ManageUsers.html',
 		controller : 'ManageUsersController'
-	}).state('Manage-Projects', {
+	}).state('Home.Manage-Projects', {
 		url : '/Manage-Projects',
 		templateUrl : 'resources/js/modules/main/Manage-Projects/ManageProjects.html',
 		controller : 'ManageProjectsController'
-	}).state('Manage-Clients', {
+	}).state('Home.Manage-Clients', {
 		url : '/Manage-Clients',
 		templateUrl : 'resources/js/modules/main/Manage-Clients/ManageClients.html',
 		controller : 'ManageClientsController'
-	}).state('Approve-Timesheets', {
+	}).state('Home.Approve-Timesheets', {
 		url : '/Approve-Timesheets',
 		templateUrl : 'resources/js/modules/main/Approve-Timesheets/ApproveTimesheets.html',
 		controller : 'ApproveTimesheetsController'
-	}).state('My-Timesheets', {
+	}).state('Home.My-Timesheets', {
 		url : '/My-Timesheets',
 		templateUrl : 'resources/js/modules/main/My-Timesheets/MyTimesheets.html',
 		controller : 'MyTimesheetsController'

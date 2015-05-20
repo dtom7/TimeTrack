@@ -9,7 +9,7 @@
 					<label for="email">Email address</label> <input type="text"
 						class="form-control" id="email" placeholder="Enter email address"
 						name="userEmail" ng-model="user.email" ng-required="true"
-						ng-pattern="emailPattern"
+						ng-pattern="emailPattern" ng-readonly="{{emailNoModify}}"
 						ng-class="{'invalid-input': formSubmitted && myProfileForm.userEmail.$invalid}">
 					<div
 						ng-show="formSubmitted && myProfileForm.userEmail.$error.required">Email

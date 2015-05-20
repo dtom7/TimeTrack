@@ -1,44 +1,55 @@
+	<!-- /container -->
+	<div class="container login-container">
 
-<div class="modal-header">
-	<h3 class="modal-title">I'm a modal!</h3>
-</div>
-<div class="modal-body">
-	<!-- tab-container -->
-	<div class="tab-container" ng-cloak="">
-		<tabset justified="true"> <tab heading="Authenticate">
-		<form novalidate name="loginForm">
-			<div class="form-group">
-				<label for="email">Email address</label> <input type="text"
-					class="form-control" id="email" placeholder="Enter email address"
-					name="userEmail" ng-model="user.email" ng-required="true"
-					ng-class="{'invalid-input': formSubmitted && loginForm.userEmail.$invalid}">
-				<div ng-show="formSubmitted && loginForm.userEmail.$invalid">Email
-					address cannot be blank</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="tab-container" ng-cloak="">
+					<tabset justified="true"> <tab heading="Authenticate">
+					<form novalidate name="loginForm" ng-controller="LoginController">
+						<div class="form-group">
+							<label for="email">Email address</label> <input type="text"
+								class="form-control" id="email"
+								placeholder="Enter email address" name="userEmail"
+								ng-model="user.email" ng-required="true"
+								ng-class="{'invalid-input': formSubmitted && loginForm.userEmail.$invalid}">
+							<div ng-show="formSubmitted && loginForm.userEmail.$invalid">Email
+								address cannot be blank</div>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label> <input type="password"
+								class="form-control" id="password" placeholder="Enter password"
+								name="userPassword" ng-model="user.password" ng-required="true"
+								ng-class="{'invalid-input': formSubmitted && loginForm.userPassword.$invalid}">
+							<div ng-show="formSubmitted && loginForm.userPassword.$invalid">Password
+								cannot be blank</div>
+						</div>
+						<button ng-click="submitForm()" class="btn btn-primary btn-sm">Login</button>
+						<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
+					</form>
+					</tab> <tab heading="Forgot Password?">
+					<form novalidate name="forgotPswForm"
+						ng-controller="ForgetPswController">
+						<div class="form-group">
+							<label for="email">Email address</label> <input type="text"
+								class="form-control" id="email"
+								placeholder="Enter email address" name="userEmail"
+								ng-model="user.email" ng-required="true"
+								ng-class="{'invalid-input': formSubmitted && forgotPswForm.userEmail.$invalid}">
+							<div ng-show="formSubmitted && forgotPswForm.userEmail.$invalid">Email
+								address cannot be blank</div>
+						</div>
+						<!-- div class="form-group">
+							<div class="g-recaptcha"
+								data-sitekey="6Lco8gUTAAAAAD9v2fK69whuzgu-l9ost_eBEfd_"></div>
+						</div -->
+						<button ng-click="submitForm()" class="btn btn-primary btn-sm">Submit</button>
+						<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
+					</form>
+					</tab> </tabset>
+				</div>
+				<!-- tab-container -->
 			</div>
-			<div class="form-group">
-				<label for="password">Password</label> <input type="password"
-					class="form-control" id="password" placeholder="Enter password"
-					name="userPassword" ng-model="user.password" ng-required="true"
-					ng-class="{'invalid-input': formSubmitted && loginForm.userPassword.$invalid}">
-				<div ng-show="formSubmitted && loginForm.userPassword.$invalid">Password
-					cannot be blank</div>
-			</div>
-			<button ng-click="submitForm()" class="btn btn-primary btn-sm">Login</button>
-			<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
-		</form>
-		</tab> <tab heading="Forgot Password?"> <!-- 	<form novalidate name="forgotPswForm"
-		ng-controller="ForgetPswController">
-		<div class="form-group">
-			<label for="email">Email address</label> <input type="text"
-				class="form-control" id="email" placeholder="Enter email address"
-				name="userEmail" ng-model="user.email" ng-required="true"
-				ng-class="{'invalid-input': formSubmitted && forgotPswForm.userEmail.$invalid}">
-			<div ng-show="formSubmitted && forgotPswForm.userEmail.$invalid">Email
-				address cannot be blank</div>
 		</div>
-		<button ng-click="submitForm()" class="btn btn-primary btn-sm">Submit</button>
-		<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
-	</form> --> </tab> </tabset>
+
 	</div>
-	<!-- tab-container -->
-</div>
+	<!-- /container -->

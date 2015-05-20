@@ -1,12 +1,15 @@
 angular.module('main').factory('AuthInterceptor', [ '$q', '$injector', function($q, $injector) {
 	var responseChecker = {
 		request : function(request) {
-			//console.log('AuthInterceptor - request: ' + angular.toJson(request));
-
+			var authToken = $injector.get('LocalStorageService').get('auth_token');
+			if (authToken) {
+				request.headers['X-AUTH-TOKEN'] = authToken;
+			}
 			return request;
 		},
 		response : function(response) {
-			//console.log('AuthInterceptor - response: ' + angular.toJson(response));
+			// console.log('AuthInterceptor - response: ' +
+			// angular.toJson(response));
 
 			return response;
 		},
@@ -32,21 +35,11 @@ angular.module('main').factory('AuthInterceptor', [ '$q', '$injector', function(
 			return localStorage.removeItem(key);
 		}
 	};
-}).factory('Auth', [ '$http', 'LocalStorageService', function($http, LocalStorageService) {
+}).factory('Auth', [ 'LocalStorageService', function(LocalStorageService) {
 
 	return {
 		isAuthenticated : function() {
 			return LocalStorageService.get('auth_token');
-		},
-		login : function(credentials) {
-			var login = $http.post('/auth/authenticate', credentials);
-			login.success(function(result) {
-				LocalStorageService.set('auth_token', JSON.stringify(result));
-			});
-			return login;
-		},
-		logout : function() {
-			LocalStorageService.unset('auth_token');
 		}
 	};
 

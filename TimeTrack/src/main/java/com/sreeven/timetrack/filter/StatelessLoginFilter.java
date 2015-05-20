@@ -1,6 +1,7 @@
 package com.sreeven.timetrack.filter;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sreeven.timetrack.domain.LoginWrapper;
 import com.sreeven.timetrack.domain.UserAuthToken;
 import com.sreeven.timetrack.service.TokenAuthenticationService;
 import com.sreeven.timetrack.service.UserService;
@@ -44,7 +47,7 @@ public class StatelessLoginFilter extends
 	public Authentication attemptAuthentication(HttpServletRequest request,
 			HttpServletResponse response) throws AuthenticationException,
 			IOException, ServletException {
-		logger.info("In attemptAuthentication - username: "
+		System.out.println("In attemptAuthentication - username: "
 				+ request.getParameter("username") + " -- password: "
 				+ request.getParameter("password") + " -- method: "
 				+ request.getMethod());
@@ -64,7 +67,7 @@ public class StatelessLoginFilter extends
 	protected void successfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
-		logger.info("In successfulAuthentication .. ");
+		System.out.println("In successfulAuthentication .. ");
 		// Lookup the complete User object from the database and create an
 		// Authentication for it
 		final UserAuthToken authenticatedUser = userService
@@ -76,15 +79,23 @@ public class StatelessLoginFilter extends
 
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+		ObjectMapper mapper = new ObjectMapper();
+		LoginWrapper wrapper = new LoginWrapper(true, "Login Success");
+        OutputStream out = response.getOutputStream();
+        mapper.writeValue(out, wrapper);
 	}
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException failed)
 			throws IOException, javax.servlet.ServletException {
-		logger.info("In unsuccessfulAuthentication .. " + failed);
-		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				failed.getMessage());
+		System.out.println("In unsuccessfulAuthentication .. " + failed);
+		/*response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+				failed.getMessage());*/
+		ObjectMapper mapper = new ObjectMapper();
+		LoginWrapper wrapper = new LoginWrapper(true, failed.getMessage());
+        OutputStream out = response.getOutputStream();
+        mapper.writeValue(out, wrapper);
 	}
 
 }
