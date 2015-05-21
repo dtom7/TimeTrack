@@ -5,7 +5,7 @@
 			<div class="col-md-6 col-md-offset-3">
 				<div class="tab-container" ng-cloak="">
 					<tabset justified="true"> <tab heading="Authenticate">
-					<form novalidate name="loginForm" ng-controller="LoginController">
+					<form novalidate name="loginForm">
 						<div class="form-group">
 							<label for="email">Email address</label> <input type="text"
 								class="form-control" id="email"
@@ -23,8 +23,8 @@
 							<div ng-show="formSubmitted && loginForm.userPassword.$invalid">Password
 								cannot be blank</div>
 						</div>
-						<button ng-click="submitForm()" class="btn btn-primary btn-sm">Login</button>
-						<button ng-click="revert()" class="btn btn-primary btn-sm">Reset</button>
+						<button ng-click="submitForm(loginForm)" class="btn btn-primary btn-sm">Login</button>
+						<button ng-click="revert(loginForm)" class="btn btn-primary btn-sm">Reset</button>
 					</form>
 					</tab> <tab heading="Forgot Password?">
 					<form novalidate name="forgotPswForm"

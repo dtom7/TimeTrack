@@ -1,4 +1,4 @@
-angular.module('Manage-Clients').controller('ManageClientsController',[ '$scope', function($scope) {
+angular.module('Manage-Clients').controller('ManageClientsController',[ '$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('ManageClientsController');
-	$scope.$parent.linkID = 'Manage-Clients';
+	//$rootScope.linkID = 'Manage-Clients';
 }]);

@@ -12,8 +12,8 @@
 			<div class="collapse navbar-collapse" collapse="navbarCollapsed"
 				ng-cloak="">
 				<ul class="nav navbar-nav navbar-right">
-					<li><span class="navbar-text"><strong>User :
-								{{userInfo.name}}</strong></span></li>
+					<li><span class="navbar-text"><strong>Logged in as:
+								{{userInfo.email}}</strong></span></li>
 					<li><button type="button"
 							class="btn btn-default btn-xs navbar-btn" ng-click="logout()">Logout</button></li>
 					<li><span class="navbar-text"></span></li>
@@ -31,7 +31,7 @@
 			<div class="col-sm-3 col-md-2 sidebar" ng-cloak="">
 				<ul class="nav nav-sidebar">
 					<li ng-repeat="linkItem in links"><a ui-sref="Home.{{linkItem.id}}"
-						ng-class="{'link-focus': linkItem.id == linkID}">{{linkItem.link}}</a></li>
+						ng-class="{'link-focus': linkItem.id == $root.linkID}">{{linkItem.link}}</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

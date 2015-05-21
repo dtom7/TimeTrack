@@ -1,7 +1,7 @@
-angular.module('My-Profile').controller('MyProfileController', [ '$scope', 'userPromise', function($scope, userPromise) {
+angular.module('My-Profile').controller('MyProfileController', [ '$rootScope', '$scope', 'userPromise', function($rootScope, $scope, userPromise) {
 	console.log('MyProfileController ..');
 
-	$scope.$parent.linkID = 'My-Profile';
+	//$rootScope.linkID = 'My-Profile';
 
 	$scope.user = userPromise.data.data;
 

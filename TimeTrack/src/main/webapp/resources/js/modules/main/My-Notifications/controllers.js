@@ -1,4 +1,4 @@
-angular.module('My-Notifications').controller('MyNotificationsController', [ '$scope', function($scope) {
+angular.module('My-Notifications').controller('MyNotificationsController', [ '$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('MyNotificationsController');
-	$scope.$parent.linkID = 'My-Notifications';
+	//$rootScope.linkID = 'My-Notifications';
 } ]);

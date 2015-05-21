@@ -66,7 +66,7 @@ public class UserController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public SingleUserRESTWrapper updateUser(@RequestBody SingleUserRESTWrapper userWrapper, @PathVariable long id) { //@RequestBody SingleUserRESTWrapper userWrapper,
 		User user = userWrapper.getOriginalUser();
-		System.out.println("updateUser: " + user);
+		System.out.println("updateUser: " + user.getPassword());
 		return new SingleUserRESTWrapper(true, userService.updateUser(user));
 	}
 	

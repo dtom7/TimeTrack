@@ -1,4 +1,4 @@
-angular.module('Manage-Projects').controller('ManageProjectsController', [ '$scope', function($scope) {
+angular.module('Manage-Projects').controller('ManageProjectsController', [ '$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('ManageProjectsController');
-	$scope.$parent.linkID = 'Manage-Projects';
+	//$rootScope.linkID = 'Manage-Projects';
 } ]);

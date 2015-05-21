@@ -9,7 +9,7 @@ public class UserWrapper {
 	public UserWrapper(boolean success, User user) {
 		super();
 		this.success = success;
-		this.user = new UserInfo(user.getId(), user.getName(), user.getUserRoles());
+		this.user = new UserInfo(user.getId(), user.getEmail(), user.getUserRoles());
 	}
 	public UserWrapper() {
 	}
@@ -28,13 +28,13 @@ public class UserWrapper {
 	
 	private static class UserInfo {
 		private long id;
-		private String name;
+		private String email;
 		private Set<Role> userRoles;
 		public UserInfo() {
 		}
-		public UserInfo(long id, String name, Set<Role> userRoles) {
+		public UserInfo(long id, String email, Set<Role> userRoles) {
 			this.id = id;
-			this.name = name;
+			this.email = email;
 			this.userRoles = userRoles;
 		}
 		public long getId() {
@@ -43,11 +43,11 @@ public class UserWrapper {
 		public void setId(long id) {
 			this.id = id;
 		}
-		public String getName() {
-			return name;
+		public String getEmail() {
+			return email;
 		}
-		public void setName(String name) {
-			this.name = name;
+		public void setEmail(String email) {
+			this.email = email;
 		}
 		public Set<Role> getUserRoles() {
 			return userRoles;

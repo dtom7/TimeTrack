@@ -1,21 +1,22 @@
 angular.module('Login').controller('LoginController',
 		[ '$scope', '$http', '$location', 'customModalService', 'LocalStorageService', function($scope, $http, $location, customModalService, LocalStorageService) {
+			console.log('LoginController');
 			$scope.user = {};
 			$scope.user.email = '';
 			$scope.user.password = '';
 			$scope.formSubmitted = false;
 
 			var original = angular.copy($scope.user);
-			$scope.revert = function() {
+			$scope.revert = function(loginForm) {
 				console.log('Reverting L');
 				$scope.formSubmitted = false;
 				$scope.user = angular.copy(original);
-				$scope.loginForm.$setPristine();
+				loginForm.$setPristine();
 			};
 
-			$scope.submitForm = function() {
+			$scope.submitForm = function(loginForm) {
 				$scope.formSubmitted = true;
-				if ($scope.loginForm.$valid) {
+				if (loginForm.$valid) {
 					// console.log('No errors L: ' +
 					// angular.toJson($scope.user));
 					// console.log(angular.toJson(window.location.protocol));

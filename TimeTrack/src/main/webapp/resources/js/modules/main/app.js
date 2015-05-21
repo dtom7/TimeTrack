@@ -6,7 +6,7 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 	$urlRouterProvider.otherwise(function($injector) {
 		$injector.get('$state').transitionTo('Home');
 	});
-    // https://github.com/angular-ui/ui-router/issues/582
+	
 	$stateProvider.state('Home', {
 		url : '/Home',
 		templateUrl : 'resources/js/modules/main/Home/Home.html',
@@ -48,8 +48,8 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		controller : 'MyTimesheetsController'
 	}).state('Login', {
 		url : '/Login',
-		templateUrl : 'resources/js/modules/main/Login/login.html',
-		controller : 'LoginController'
+		controller : 'LoginController',
+		templateUrl : 'resources/js/modules/main/Login/login.html'
 	});
 
 } ]).config([ 'inputModifiedConfigProvider', function(inputModifiedConfigProvider) {
@@ -59,6 +59,8 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 } ]).run([ '$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (toState.name != 'Login') {
+			/* this is for the link-focus class in Home.html */
+			$rootScope.linkID = toState.name.replace('Home.', '');
 			if (!Auth.isAuthenticated()) {
 				event.preventDefault();
 				$state.go('Login');

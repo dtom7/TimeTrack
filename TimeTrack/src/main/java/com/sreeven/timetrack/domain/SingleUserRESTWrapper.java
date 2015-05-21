@@ -3,6 +3,8 @@ package com.sreeven.timetrack.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SingleUserRESTWrapper {
@@ -40,7 +42,12 @@ public class SingleUserRESTWrapper {
 		User user = new User();
 		user.setId(this.data.getId());
 		user.setEmail(this.data.getEmail());
-		user.setPassword(this.data.getPassword());
+		if (this.data.getPassword().equals(this.data.getCnfrmPassword())) {
+			user.setPassword(new BCryptPasswordEncoder().encode(this.data
+					.getPassword()));
+		} else {
+			user.setPassword(this.data.getPassword());
+		}
 		user.setEnabled(this.data.isEnabled());
 		user.setName(this.data.getName());
 		user.setUserRoles(SingleUserRESTWrapper.getRoles(this.data
@@ -74,13 +81,14 @@ public class SingleUserRESTWrapper {
 		private long id;
 		private String email;
 		private String password;
+		private String cnfrmPassword;
 		private boolean enabled;
 		private String name;
 		private Set<UserRole> userRoles = new HashSet<UserRole>();
 		private Set<Address> userAddresses = new HashSet<Address>();
 		private Set<Phone> userPhones = new HashSet<Phone>();
 		private long version;
-		
+
 		public UserInfo() {
 			super();
 		}
@@ -120,6 +128,14 @@ public class SingleUserRESTWrapper {
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+		public String getCnfrmPassword() {
+			return cnfrmPassword;
+		}
+
+		public void setCnfrmPassword(String cnfrmPassword) {
+			this.cnfrmPassword = cnfrmPassword;
 		}
 
 		public boolean isEnabled() {

@@ -1,4 +1,4 @@
-angular.module('My-Timesheets').controller('MyTimesheetsController', [ '$scope', function($scope) {
+angular.module('My-Timesheets').controller('MyTimesheetsController', [ '$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('MyTimesheetsController');
-	$scope.$parent.linkID = 'My-Timesheets';
+	//$rootScope.linkID = 'My-Timesheets';
 } ]);

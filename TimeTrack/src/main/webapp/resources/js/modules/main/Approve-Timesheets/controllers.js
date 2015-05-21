@@ -1,4 +1,4 @@
-angular.module('Approve-Timesheets').controller('ApproveTimesheetsController',[ '$scope', function($scope) {
+angular.module('Approve-Timesheets').controller('ApproveTimesheetsController',[ '$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('ApproveTimesheetsController');
-	$scope.$parent.linkID = 'Approve-Timesheets';
+	//$rootScope.linkID = 'Approve-Timesheets';
 }]);

@@ -1,8 +1,8 @@
 angular.module('Home').controller('HomeController',
-		[ '$scope', '$http', 'customModalService', 'LocalStorageService', '$state', function($scope, $http, customModalService, LocalStorageService, $state) {
+		[ '$rootScope', '$scope', '$http', 'customModalService', 'LocalStorageService', '$state', function($rootScope, $scope, $http, customModalService, LocalStorageService, $state) {
 
 			console.log('HomeController');
-			$scope.$parent.linkID = 'Home';
+			//$rootScope.linkID = 'Home';
 
 			$scope.userInfo = {};
 			$scope.links = [];
@@ -66,21 +66,21 @@ angular.module('Home').controller('HomeController',
 
 					$scope.originalUser = angular.copy($scope.user);
 
-					$scope.revert = function() {
+					$scope.revert = function(myProfileForm) {
 						console.log('Reverting ..');
 						$scope.formSubmitted = false;
 						$scope.user = angular.copy($scope.originalUser);
 						// Calling set-pristine after digest cycle.
-						if ($scope.myProfileForm) {
+						if (myProfileForm) {
 							$timeout(function() {
-								$scope.myProfileForm.$setPristine();
+								myProfileForm.$setPristine();
 							});
 						}
 					};
 
-					$scope.submitForm = function() {
+					$scope.submitForm = function(myProfileForm) {
 						$scope.formSubmitted = true;
-						if ($scope.myProfileForm.$valid) {
+						if (myProfileForm.$valid) {
 							console.log('No errors: ' + angular.toJson($scope.user));
 
 							if (angular.equals($scope.user, $scope.originalUser)) {
@@ -99,9 +99,9 @@ angular.module('Home').controller('HomeController',
 										$scope.originalUser = angular.copy(rdata.data);
 										// Calling set-pristine after digest
 										// cycle.
-										if ($scope.myProfileForm) {
+										if (myProfileForm) {
 											$timeout(function() {
-												$scope.myProfileForm.$setPristine();
+												myProfileForm.$setPristine();
 											});
 										}
 										customModalService.open("Saved Successfully");
@@ -116,7 +116,7 @@ angular.module('Home').controller('HomeController',
 							}
 
 						} else {
-							console.log('Validation error(s)' + angular.toJson($scope.myProfileForm.$error));
+							console.log('Validation error(s)' + angular.toJson(myProfileForm.$error));
 
 						}
 					};

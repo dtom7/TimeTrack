@@ -33,7 +33,7 @@
 					<label for="cnfrmPassword">Confirm Password</label> <input
 						type="password" class="form-control" id="cnfrmPassword"
 						placeholder="Re-Enter password" name="userCnfrmPassword"
-						ng-model="cnfrmPassword"
+						ng-model="user.cnfrmPassword"
 						ng-required="myProfileForm.userPassword.modified" cnfrmpsw
 						ng-class="{'invalid-input': formSubmitted && myProfileForm.userCnfrmPassword.$invalid}">
 					<div
@@ -219,8 +219,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div>
-				<button ng-click="submitForm()" class="btn btn-primary btn-md">Save</button>
-				<button ng-click="revert()" class="btn btn-primary btn-md">Discard</button>
+				<button ng-click="submitForm(myProfileForm)" class="btn btn-primary btn-md">Save</button>
+				<button ng-click="revert(myProfileForm)" class="btn btn-primary btn-md">Discard</button>
 				<span>&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
 					ng-show="formSubmitted && !myProfileForm.$valid">Form has
 					validation error(s) !!! Please correct the error(s) and save the
