@@ -1,12 +1,12 @@
-var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'common', 'ngInputModified', 'Login', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users', 'Manage-Projects', 'Manage-Clients',
-		'Approve-Timesheets', 'My-Timesheets' ]);
+var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'ui.grid', 'ui.grid.selection', 'common', 'ngInputModified', 'Login', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users',
+		'Manage-Projects', 'Manage-Clients', 'Approve-Timesheets', 'My-Timesheets' ]);
 
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise(function($injector) {
 		$injector.get('$state').transitionTo('Home');
 	});
-	
+
 	$stateProvider.state('Home', {
 		url : '/Home',
 		templateUrl : 'resources/js/modules/main/Home/Home.html',
@@ -56,7 +56,8 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 	inputModifiedConfigProvider.disableGlobally();
 } ]).config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('AuthInterceptor');
-} ]).run([ '$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
+} ]).run([ '$rootScope', '$state', 'Auth', '$window', function($rootScope, $state, Auth, $window) {
+	$rootScope.mainURL = $window.location.protocol + '//' + $window.location.host + '/TimeTrack';
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (toState.name != 'Login') {
 			/* this is for the link-focus class in Home.html */

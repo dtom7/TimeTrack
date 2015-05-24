@@ -20,11 +20,18 @@ public final class TokenHandler {
 	}
 
 	public UserAuthToken parseUserFromToken(String token) {
-		System.out.println("TokenHandler .. parseUserFromToken");
+		System.out.println("TokenHandler .. parseUserFromToken");		
+		/* The parser() method will throw exceptions if the token is tampered
+		 * with or if the token has expired */	 
 		try {
 			Claims claims = Jwts.parser().setSigningKey(secret)
 					.parseClaimsJws(token).getBody();
 			String username = claims.getSubject();
+			Date expDate = claims.getExpiration();
+			/* Do not accept tokens with no expire date */
+			if (expDate == null) {
+				return null;
+			}
 			return userService.loadUserAuthToken(username);
 		} catch (Exception ex) {
 			System.out.println("Exception: " + ex.getMessage());
