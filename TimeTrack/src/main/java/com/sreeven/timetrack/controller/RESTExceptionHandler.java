@@ -17,6 +17,9 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ Exception.class })
 	protected ResponseEntity<Object> handleInvalidRequest(RuntimeException e,
 			WebRequest request) {
+		
+		System.out.println("RESTExceptionHandler: " + e);
+		e.printStackTrace();
 
 		String retString = "Internal Exception";
 

@@ -2,6 +2,7 @@ angular.module('main').factory('AuthInterceptor', [ '$q', '$injector', function(
 	var responseChecker = {
 		request : function(request) {
 			var authToken = $injector.get('LocalStorageService').get('auth_token');
+			//console.log('AuthInterceptor - request: ' + authToken);
 			if (authToken) {
 				request.headers['X-AUTH-TOKEN'] = authToken;
 			}

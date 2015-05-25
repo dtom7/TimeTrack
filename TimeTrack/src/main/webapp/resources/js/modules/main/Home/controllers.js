@@ -1,40 +1,20 @@
-angular.module('Home').controller('HomeController',
-		[ '$rootScope', '$scope', '$http', 'customModalService', 'LocalStorageService', '$state', function($rootScope, $scope, $http, customModalService, LocalStorageService, $state) {
+angular.module('Home').controller(
+		'HomeController',
+		[ '$scope', '$http', 'customModalService', 'LocalStorageService', '$state', 'userPromise', 'UserInfoService',
+				function($scope, $http, customModalService, LocalStorageService, $state, userPromise, UserInfoService) {
 
-			console.log('HomeController');
-			//$rootScope.linkID = 'Home';
+					console.log('HomeController');
 
-			$scope.userInfo = {};
-			$scope.links = [];
-			$scope.linkID = 'Home';
+					$scope.userInfo = userPromise[0].data.userInfo;
+					UserInfoService.userInfo = userPromise[0].data.userInfo;
+					$scope.links = userPromise[1].data.links;
 
-			$http({
-				method : 'GET',
-				url : "getUser"
-			}).success(function(data, status, headers, config) {
-				$scope.userInfo = data.userInfo;
+					$scope.logout = function() {
+						LocalStorageService.unset('auth_token');
+						$state.go('Login');
+					};
 
-				$http({
-					method : 'GET',
-					url : "getLinks"
-				}).success(function(data, status, headers, config) {
-					$scope.links = data.links;
-				}).error(function(data, status, headers, config) {
-					console.log('Ajax Failed: ' + angular.toJson(status));
-					customModalService.open('Error communicating with server');
-				});
-
-			}).error(function(data, status, headers, config) {
-				console.log('Ajax Failed: ' + angular.toJson(data));
-				customModalService.open('Error communicating with server');
-			});
-
-			$scope.logout = function() {
-				LocalStorageService.unset('auth_token');
-				$state.go('Login');
-			};
-
-		} ]).controller(
+				} ]).controller(
 		'UserProfileController',
 		[
 				'$scope',
@@ -42,9 +22,11 @@ angular.module('Home').controller('HomeController',
 				'$timeout',
 				'customModalService',
 				'$window',
-				function($scope, $http, $timeout, customModalService, $window) {
-					console.log('UserProfileController ..');
+				'UserInfoService',
+				function($scope, $http, $timeout, customModalService, $window, UserInfoService) {
+					console.log('UserProfileController ..' + angular.toJson($scope.user));
 
+					$scope.userRolesOrig = UserInfoService.userInfo.userRoles;
 					$scope.formSubmitted = false;
 					$scope.tabActive = true;
 					$scope.originalUser = {};
@@ -87,12 +69,15 @@ angular.module('Home').controller('HomeController',
 								console.log('Nothing to save ..');
 								customModalService.open("There is nothing to save");
 							} else {
-								console.log('Something to save ..');
-								$http.put("users/" + $scope.user.id, {
-									success : true,
-									data : $scope.user
+								$http({
+									method : ($scope.user.id ? 'PUT' : 'POST'),
+									url : 'users/' + ($scope.user.id ? $scope.user.id : ''),
+									data : {
+										success : true,
+										data : $scope.user
+									}
 								}).success(function(rdata, status, headers, config) {
-									console.log('Ajax PUT OK: ' + angular.toJson(rdata));
+									console.log('Ajax OK: ' + angular.toJson(rdata));
 									if (rdata.success) {
 										console.log('New Version: ' + rdata.data.version);
 										$scope.user = angular.copy(rdata.data);

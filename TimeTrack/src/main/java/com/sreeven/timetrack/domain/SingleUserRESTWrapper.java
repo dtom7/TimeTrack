@@ -76,7 +76,7 @@ public class SingleUserRESTWrapper {
 		return roles;
 	}
 
-	private static class UserInfo {
+	public static class UserInfo {
 
 		private long id;
 		private String email;
@@ -188,7 +188,7 @@ public class SingleUserRESTWrapper {
 
 	}
 
-	private static class UserRole {
+	public static class UserRole {
 		private Role role;
 		private boolean selected;
 

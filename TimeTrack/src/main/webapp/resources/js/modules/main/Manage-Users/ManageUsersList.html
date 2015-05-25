@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+	<!-- ng-controller="ManageUsersListController" is not required here it comes from $stateProvider -->
+	<div class="panel-heading">
+		<h4 class="panel-title">Manage Users</h4>
+	</div>
+	<div class="panel-body main-panel-body">
+		<div>
+			<button type="button" class="btn btn-default" ng-click="addUser()">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				Add User
+			</button>
+			<button type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				Edit User
+			</button>
+			<button type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				Delete User
+			</button>
+			<button type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+				Refresh User Data
+			</button>
+		</div>
+		<br>
+		<div ui-grid="gridOptions" ui-grid-selection class="myGrid"></div>
+	</div>
+</div>

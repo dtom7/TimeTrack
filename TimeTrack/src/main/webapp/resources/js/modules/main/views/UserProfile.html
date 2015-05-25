@@ -1,6 +1,5 @@
 <!-- This html is used as the template of userProfile directive -->
-<form novalidate name="myProfileForm"
-	confirm-on-exit current="user"
+<form novalidate name="myProfileForm" confirm-on-exit current="user"
 	original="originalUser">
 	<div class="row">
 		<div class="col-md-6" ng-cloak="">
@@ -49,14 +48,16 @@
 						ng-show="formSubmitted && myProfileForm.userName.$error.required">Name
 						cannot be blank</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group"
+					ng-show="userRolesOrig.indexOf('ROLE_ADMIN') != -1">
 					<label for="enabled" class="checkbox-inline"><input
 						type="checkbox" id="enabled" name="userEnabled"
 						ng-model="user.enabled"><strong>Enabled</strong></label>
 				</div>
 			</div>
 			<!-- well -->
-			<div class="panel panel-default">
+			<div class="panel panel-default"
+				ng-show="userRolesOrig.indexOf('ROLE_ADMIN') != -1">
 				<div class="panel-heading">
 					<strong>User Roles</strong>
 				</div>
@@ -219,8 +220,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div>
-				<button ng-click="submitForm(myProfileForm)" class="btn btn-primary btn-md">Save</button>
-				<button ng-click="revert(myProfileForm)" class="btn btn-primary btn-md">Discard</button>
+				<button ng-click="submitForm(myProfileForm)"
+					class="btn btn-primary btn-md">Save</button>
+				<button ng-click="revert(myProfileForm)"
+					class="btn btn-primary btn-md">Discard</button>
 				<span>&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
 					ng-show="formSubmitted && !myProfileForm.$valid">Form has
 					validation error(s) !!! Please correct the error(s) and save the

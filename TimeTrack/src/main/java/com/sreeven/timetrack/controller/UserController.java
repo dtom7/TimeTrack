@@ -41,8 +41,7 @@ public class UserController {
 			user.getUserAddresses().add(
 					new Address(AddressType.WORK, "321 King St", "", "Troy",
 							"NY", "98765", "USA"));
-			user.getUserPhones().add(
-					new Phone(PhoneType.HOME, "123-456-7899"));
+			user.getUserPhones().add(new Phone(PhoneType.HOME, "123-456-7899"));
 			user.getUserPhones().add(
 					new Phone(PhoneType.MOBILE, "987-654-3211"));
 			System.out.println("Creating user: " + user);
@@ -60,28 +59,42 @@ public class UserController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public SingleUserRESTWrapper getUser(@PathVariable long id) {
 		System.out.println("getUser: " + id);
-		return new SingleUserRESTWrapper(true, userService.getUserById(id));
+		if (id < 0) {
+			return new SingleUserRESTWrapper(true, new User());
+		} else {
+			return new SingleUserRESTWrapper(true, userService.getUserById(id));
+		}
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public SingleUserRESTWrapper updateUser(@RequestBody SingleUserRESTWrapper userWrapper, @PathVariable long id) { //@RequestBody SingleUserRESTWrapper userWrapper,
+	public SingleUserRESTWrapper updateUser(
+			@RequestBody SingleUserRESTWrapper userWrapper,
+			@PathVariable long id) {
+		System.out.println("updateUser: " + id);
 		User user = userWrapper.getOriginalUser();
-		System.out.println("updateUser: " + user.getPassword());
 		return new SingleUserRESTWrapper(true, userService.updateUser(user));
 	}
-	
-/*	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public long createUser(@RequestBody User user, @PathVariable long id) {
-		System.out.println("createUser: " + user);
-		return userService.createUser(user);
-	    //StringBuilder buffer = new StringBuilder(); // HttpServletRequest request
-	    //BufferedReader reader = request.getReader();
-	    //String line;
-	    //while ((line = reader.readLine()) != null) {
-	    //    buffer.append(line);
-	    //}
-	    //String data = buffer.toString();
-	}*/
+
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public SingleUserRESTWrapper createUser(
+			@RequestBody SingleUserRESTWrapper userWrapper) {
+		System.out.println("createUser .. " + userWrapper.getData().getEmail());
+		User user = userWrapper.getOriginalUser();
+		Long id = userService.createUser(user);
+		System.out.println("Created user: " + id);
+		return new SingleUserRESTWrapper(true, userService.getUserById(id));
+	}
+
+	/*
+	 * @RequestMapping(value = "/{id}", method = RequestMethod.POST) public long
+	 * createUser(@RequestBody User user, @PathVariable long id) {
+	 * System.out.println("createUser: " + user); return
+	 * userService.createUser(user); //StringBuilder buffer = new
+	 * StringBuilder(); // HttpServletRequest request //BufferedReader reader =
+	 * request.getReader(); //String line; //while ((line = reader.readLine())
+	 * != null) { // buffer.append(line); //} //String data = buffer.toString();
+	 * }
+	 */
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@RequestBody User user, @PathVariable long id) {
