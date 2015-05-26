@@ -1,5 +1,5 @@
 var app = angular.module('main', [ 'ui.bootstrap', 'ui.router', 'ui.grid', 'ui.grid.selection', 'common', 'ngInputModified', 'Login', 'Home', 'My-Profile', 'My-Notifications', 'Manage-Users',
-		'Manage-Projects', 'Manage-Clients', 'Approve-Timesheets', 'My-Timesheets' ]);
+	'Manage-Projects', 'Manage-Clients', 'Approve-Timesheets', 'My-Timesheets' ]);
 
 app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
@@ -58,14 +58,19 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		url : '/addUser',
 		templateUrl : 'resources/js/modules/main/Manage-Users/ManageUsersAdd.html',
 		resolve : {
-			dummyUser : function($http) {
+			createUser : function($http) {
 				return $http.get('users/-1');
 			}
 		},
 		controller : 'ManageUsersAddController'
 	}).state('Home.Manage-Users.Edit-User', {
-		url : '/editUser',
+		url : '/editUser/:id',
 		templateUrl : 'resources/js/modules/main/Manage-Users/ManageUsersEdit.html',
+		resolve : {
+			editUser : function($http, $stateParams) {
+				return $http.get('users/' + $stateParams.id);
+			}
+		},
 		controller : 'ManageUsersEditController'
 	// Start - Manage-Projects
 	}).state('Home.Manage-Projects', {
@@ -99,27 +104,27 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 } ]).config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('AuthInterceptor');
 } ]).run(
-		[
-				'$rootScope',
-				'$state',
-				'Auth',
-				'$window',
-				function($rootScope, $state, Auth, $window) {
-					$rootScope.mainURL = $window.location.protocol + '//' + $window.location.host + '/TimeTrack';
-					$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-						if (toState.name != 'Login') {
-							/* this is for the link-focus class in Home.html */
-							$rootScope.linkID = (toState.name.indexOf(".") == toState.name.lastIndexOf(".") ? toState.name.replace('Home.', '') : toState.name.substring(toState.name.indexOf(".") + 1,
-									toState.name.lastIndexOf(".")));
-							if (!Auth.isAuthenticated()) {
-								event.preventDefault();
-								$state.go('Login');
-							} else {
-								if (toState.name === 'Home.Manage-Users') {
-									event.preventDefault();
-									$state.go('Home.Manage-Users.List-Users');
-								}
-							}
+	[
+		'$rootScope',
+		'$state',
+		'Auth',
+		'$window',
+		function($rootScope, $state, Auth, $window) {
+			$rootScope.mainURL = $window.location.protocol + '//' + $window.location.host + '/TimeTrack';
+			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+				if (toState.name != 'Login') {
+					/* this is for the link-focus class in Home.html */
+					$rootScope.linkID = (toState.name.indexOf(".") == toState.name.lastIndexOf(".") ? toState.name.replace('Home.', '') : toState.name.substring(toState.name.indexOf(".") + 1,
+						toState.name.lastIndexOf(".")));
+					if (!Auth.isAuthenticated()) {
+						event.preventDefault();
+						$state.go('Login');
+					} else {
+						if (toState.name === 'Home.Manage-Users') {
+							event.preventDefault();
+							$state.go('Home.Manage-Users.List-Users');
 						}
-					});
-				} ]);
+					}
+				}
+			});
+		} ]);

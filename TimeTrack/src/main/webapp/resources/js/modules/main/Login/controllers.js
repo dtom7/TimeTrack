@@ -43,12 +43,12 @@ angular.module('Login').controller('LoginController',
 							window.location.assign(window.location.protocol + '//' + window.location.host + '/TimeTrack/');
 						} else {
 							LocalStorageService.unset('auth_token');
-							customModalService.open(data.msg);
+							customModalService.open('Server Response', data.msg);
 						}
 					}).error(function(data, status, headers, config) {
 						LocalStorageService.unset('auth_token');
 						console.log('Ajax failed: ' + angular.toJson(data));
-						customModalService.open('Error communicating with server');
+						customModalService.open('Warning', 'Error communicating with server');
 					});
 
 				} else {

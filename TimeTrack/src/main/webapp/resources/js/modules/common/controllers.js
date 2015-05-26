@@ -1,11 +1,12 @@
-angular.module('common').controller('CustomModalInstanceCtrl', function($scope, $modalInstance, message) {
+angular.module('common').controller('CustomModalInstanceCtrl', [ '$scope', '$modalInstance', 'title', 'message', function($scope, $modalInstance, title, message) {
+	$scope.title = title;
 	$scope.message = message;
 	$scope.dismiss = function() {
 		$modalInstance.dismiss('cancel');
 	};
-});
+} ]);
 
-angular.module('common').controller('UnsavedModalInstanceCtrl', function($scope, $rootScope, $modalInstance, $state, toState) {
+angular.module('common').controller('UnsavedModalInstanceCtrl', [ '$scope', '$rootScope', '$modalInstance', '$state', 'toState', function($scope, $rootScope, $modalInstance, $state, toState) {
 	$scope.getOut = function() {
 		$modalInstance.dismiss('cancel');
 		$rootScope.unbindStateChangeCoEHandler();
@@ -15,4 +16,4 @@ angular.module('common').controller('UnsavedModalInstanceCtrl', function($scope,
 	$scope.stayBack = function() {
 		$modalInstance.dismiss('cancel');
 	};
-});
+} ]);
