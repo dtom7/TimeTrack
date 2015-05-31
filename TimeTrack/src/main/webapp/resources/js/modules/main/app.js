@@ -43,6 +43,7 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 		controller : 'MyNotificationsController'
 	// Start - Manage-Users
 	}).state('Home.Manage-Users', {
+		abstract : true,
 		url : '/Manage-Users',
 		templateUrl : 'resources/js/modules/main/Manage-Users/ManageUsers.html'
 	}).state('Home.Manage-Users.List-Users', {
@@ -114,16 +115,10 @@ app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $u
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 				if (toState.name != 'Login') {
 					/* this is for the link-focus class in Home.html */
-					$rootScope.linkID = (toState.name.indexOf(".") == toState.name.lastIndexOf(".") ? toState.name.replace('Home.', '') : toState.name.substring(toState.name.indexOf(".") + 1,
-						toState.name.lastIndexOf(".")));
+					$rootScope.linkID = (toState.name.indexOf(".") == toState.name.lastIndexOf(".") ? toState.name: toState.name.substring(0, toState.name.lastIndexOf(".")));
 					if (!Auth.isAuthenticated()) {
 						event.preventDefault();
 						$state.go('Login');
-					} else {
-						if (toState.name === 'Home.Manage-Users') {
-							event.preventDefault();
-							$state.go('Home.Manage-Users.List-Users');
-						}
 					}
 				}
 			});

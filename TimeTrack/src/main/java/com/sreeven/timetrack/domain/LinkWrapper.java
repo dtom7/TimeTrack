@@ -12,16 +12,16 @@ public class LinkWrapper {
 		this.links = new ArrayList<LinkInfo>();
 		System.out.println(user.getUserRoles());
 		if (user.getUserRoles().contains(Role.ROLE_ADMIN)) {
-			this.links.add(new LinkInfo("My Profile", "My-Profile"));
-			this.links.add(new LinkInfo("My Notifications", "My-Notifications"));
-			this.links.add(new LinkInfo("Manage Users", "Manage-Users"));
-			this.links.add(new LinkInfo("Manage Projects", "Manage-Projects"));
-			this.links.add(new LinkInfo("Manage Clients", "Manage-Clients"));
-			this.links.add(new LinkInfo("Approve Timesheets", "Approve-Timesheets"));
+			this.links.add(new LinkInfo("My Profile", "Home.My-Profile"));
+			this.links.add(new LinkInfo("My Notifications", "Home.My-Notifications"));
+			this.links.add(new LinkInfo("Manage Users", "Home.Manage-Users.List-Users"));
+			this.links.add(new LinkInfo("Manage Projects", "Home.Manage-Projects"));
+			this.links.add(new LinkInfo("Manage Clients", "Home.Manage-Clients"));
+			this.links.add(new LinkInfo("Approve Timesheets", "Home.Approve-Timesheets"));
 		} else {
-			this.links.add(new LinkInfo("My Profile", "My-Profile"));
-			this.links.add(new LinkInfo("My Timesheets", "My-Timesheets"));
-			this.links.add(new LinkInfo("My Notifications", "My-Notifications"));
+			this.links.add(new LinkInfo("My Profile", "Home.My-Profile"));
+			this.links.add(new LinkInfo("My Timesheets", "Home.My-Timesheets"));
+			this.links.add(new LinkInfo("My Notifications", "Home.My-Notifications"));
 		}
 	}
 	public boolean isSuccess() {

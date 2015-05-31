@@ -19,14 +19,17 @@ angular.module('Manage-Users').controller('ManageUsersListController', [ '$scope
 	$scope.gridOptions.data = userList.data;
 
 	$scope.addUser = function() {
+		console.log('addUser ');
 		$state.go('Home.Manage-Users.Add-User');
 	};
 
 	$scope.editUser = function() {
+		console.log('editUser ');
 		if ($scope.selectedRow) {
+			console.log('editUser selectedRow ..');
 			$state.go('Home.Manage-Users.Edit-User', { id : $scope.selectedRow.id });
 		} else {
-			customModalService.open('Warning', 'Please select a row first');
+			customModalService.open('Warning', 'Please select a user from the list');
 		}
 	};
 
