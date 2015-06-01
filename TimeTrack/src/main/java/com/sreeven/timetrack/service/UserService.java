@@ -15,5 +15,6 @@ public interface UserService {
 	Long createUser(User user);
 	User updateUser(User user);
 	void deleteUser(User user);
+	void processResetPassword(String email);
 
 }

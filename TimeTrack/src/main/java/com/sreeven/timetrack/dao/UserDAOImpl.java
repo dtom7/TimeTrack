@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sreeven.timetrack.domain.User;
+import com.sreeven.timetrack.exception.NoUserExistsException;
 
 @Repository("userDAOImpl")
 public class UserDAOImpl implements UserDAO {
@@ -24,13 +25,11 @@ public class UserDAOImpl implements UserDAO {
 		query.setParameter("email_id", email);
 		@SuppressWarnings("unchecked")
 		List<User> list = (List<User>) query.list();
-		if (list.size() != 0) {
-			return list.get(0);
-		} else {
-			User user = new User();
-			user.setName("Test User");
-			return user;
+		if (list.size() == 0) {
+			throw new NoUserExistsException("No User exists with the email: "
+					+ email);
 		}
+		return list.get(0);
 	}
 
 	@Override
@@ -56,9 +55,9 @@ public class UserDAOImpl implements UserDAO {
 		if (list.size() != 0) {
 			user = list.get(0);
 			/* to prevent lazy initialization exception */
-			//Hibernate.initialize(user.getUserRoles());
-			//Hibernate.initialize(user.getUserAddresses());
-			//Hibernate.initialize(user.getUserPhones());
+			// Hibernate.initialize(user.getUserRoles());
+			// Hibernate.initialize(user.getUserAddresses());
+			// Hibernate.initialize(user.getUserPhones());
 		}
 		return Objects.requireNonNull(user, "No user exists with id: " + id);
 	}

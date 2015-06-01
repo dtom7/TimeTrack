@@ -68,4 +68,11 @@ public class UserServiceImpl implements UserService {
 				user.getId());
 	}
 
+	@Override
+	@Transactional
+	public void processResetPassword(String email) {
+		User user = this.getUserByEmail(email);
+
+	}
+
 }

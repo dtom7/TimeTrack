@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sreeven.timetrack.domain.LinkWrapper;
 import com.sreeven.timetrack.domain.LoginWrapper;
 import com.sreeven.timetrack.domain.LogoutWrapper;
+import com.sreeven.timetrack.domain.ResetPasswordJSONWrapper;
 import com.sreeven.timetrack.domain.Role;
+import com.sreeven.timetrack.domain.SingleUserRESTWrapper;
 import com.sreeven.timetrack.domain.User;
 import com.sreeven.timetrack.domain.UserWrapper;
 import com.sreeven.timetrack.service.UserService;
@@ -40,10 +43,10 @@ public class LoginController {
 
 	@Autowired
 	private SecurityContextRepository repository;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@PostConstruct
 	public void setupAdminUser() {
 		System.out.println("Post construct: " + userService);
@@ -70,7 +73,8 @@ public class LoginController {
 		try {
 			Authentication auth = authenticationManager.authenticate(token);
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			//repository.saveContext(SecurityContextHolder.getContext(), request,response);
+			// repository.saveContext(SecurityContextHolder.getContext(),
+			// request,response);
 
 			return new LoginWrapper(true, "Login Success");
 		} catch (BadCredentialsException ex) {
@@ -88,14 +92,25 @@ public class LoginController {
 
 	@RequestMapping("/getUser")
 	public UserWrapper getUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		return new UserWrapper(true, userService.getUserByEmail(auth.getName()));
 	}
-	
+
 	@RequestMapping("/getLinks")
 	public LinkWrapper getLinks() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		return new LinkWrapper(true, userService.getUserByEmail(auth.getName()));
+	}
+
+	@RequestMapping(value = "/processResetPassword", method = RequestMethod.POST)
+	public ResetPasswordJSONWrapper processResetPassword(
+			@RequestBody ResetPasswordJSONWrapper request) {
+		userService.processResetPassword(request.getMessage());
+		return new ResetPasswordJSONWrapper("An email has been sent to "
+				+ request.getMessage()
+				+ " with instructions to reset the password.");
 	}
 
 }
