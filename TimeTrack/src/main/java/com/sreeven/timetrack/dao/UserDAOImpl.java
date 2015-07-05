@@ -76,4 +76,17 @@ public class UserDAOImpl implements UserDAO {
 		return list;
 	}
 
+	@Override
+	public Long getUserIdByEmail(String email) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select u.id from User u where u.email = :email_id");
+		query.setParameter("email_id", email);
+		Long id = (Long) query.uniqueResult();
+		if (id == null) {
+			throw new NoUserExistsException("No User exists with the email: "
+					+ email);
+		}
+		return id;
+	}
+
 }

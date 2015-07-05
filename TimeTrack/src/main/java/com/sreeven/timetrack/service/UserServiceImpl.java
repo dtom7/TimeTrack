@@ -70,9 +70,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void processResetPassword(String email) {
-		User user = this.getUserByEmail(email);
+	public Long getUserIdByEmail(String email) {
+		return userDAO.getUserIdByEmail(email);
+	}
 
+	@Override
+	@Transactional
+	public void processResetPassword(String email) {
+		Long id = this.getUserIdByEmail(email);
+		System.out.println("user id: " + id);
 	}
 
 }
